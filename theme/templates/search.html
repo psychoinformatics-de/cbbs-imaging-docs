@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} &mdash; Search{% endblock %}
+{% block extra_headers %}
+  <script src="/theme/ts/jquery-3.2.1.min.js"></script>
+  <script src="/tipuesearch_content.json"></script>
+  <script src="/theme/ts/tipuesearch_set.js"></script>
+  <script src="/theme/ts/tipuesearch.min.js"></script>
+  <script>
+  $(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+      'mode': 'json',
+      'contentLocation': '/tipuesearch_content.json',
+      'show': 1000,
+      'showTitleCount': false,
+      'showTime': false,
+      'showURL': false
+    });
+  });
+  </script>
+{% endblock %}
+
+{% block content %}
+<article>
+  <header>
+    <nav>
+      <ul class="breadcrumbs">
+        <li><a href="/">Home</a></li>
+        <li> > Search</li>
+      </ul>
+    </nav>
+    <h1>Search Results</h1>
+  </header>
+
+  <div id="tipue_search_content"><div id="tipue_search_loading"></div></div>
+</article>
+{% endblock content %}

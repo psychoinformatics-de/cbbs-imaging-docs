@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="{{ DEFAULT_LANG }}">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="{{ AUTHOR }}" />
+  <title>{{ SITENAME }}{% block title %}{% endblock %}</title>
+  <link rel="license" hreflang="en" href="{{ SITEURL }}/copyright.html" />
+
+  <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+  {% block extra_headers %}{% endblock %}
+</head>
+
+<body>
+  <aside>
+    <h1><a href="/">{{ SITENAME }}</a></h1>
+    <nav>
+      <ul>
+        {% for title, link in MENUITEMS %}
+        <li><a href="{{ link }}">{{ title }}</a></li>
+        {% endfor %}
+
+        {% for p in pages %}
+          {% if not p.parent %}{# print all top-level pages #}
+            {% if p == page or page in p.children %}
+              <li>
+              {% if p == page %}
+                <a class="active" href="/{{ p.url }}">{{ p.title }}</a>
+                {% if page.toc %}{{ page.toc }}{% endif %}
+              {% else %}
+                <a href="/{{ p.url }}">{{ p.title }}</a>
+              {% endif %}
+
+              {% if p.children %}{# print any child pages #}
+                <ul>
+                {% for c in p.children %}
+                  <li>
+                  {% if c == page %}
+                    <a class="active" href="/{{ c.url }}">{{ c.title }}</a>
+                    {% if page.toc %}{{ page.toc }}{% endif %}
+                  {% else %}
+                    <a href="/{{ c.url }}">{{ c.title }}</a>
+                  {% endif %}
+                  </li>
+                {% endfor %}
+                </ul>
+              {% endif %}
+              </li>
+            {% else %}
+              <li><a href="/{{ p.url }}">{{ p.title }}</a></li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </nav>
+    <form class="searchbox" action="/search.html">
+      <input type="text" name="q" id="tipue_search_input" placeholder="Search">
+    </form>
+  </aside>
+
+  <main>
+    <div id='content'>
+    {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+      <p><small>
+        content licensed <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">cc-by-sa</a>
+        <span class='break'>—</span> ©2017–2018 {{ AUTHOR }} <span class='break'>—</span>
+        unless <a rel="license" href='/copyright.html'>indicated otherwise</a>
+      </small></p>
+    </footer>
+  </main>
+</body>
+</html>
