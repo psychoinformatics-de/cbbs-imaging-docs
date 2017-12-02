@@ -170,28 +170,6 @@ aside nav ul ul ul a { padding-left: 4em; }
   list-style: none;
 }
 
-.dc-rack {
-  border: 0;
-  border-collapse: separate;
-  border-spacing: 0;
-  text-align: left;
-  width: 100%;
-}
-.dc-rack th, .dc-rack td {
-  border: 0;
-  border-bottom: 1px solid #bbb;
-  padding: 0 0.5em;
-}
-.dc-rack th:nth-child(3) {
-  border-bottom: 1px solid #000000;
-}
-.dc-rack td:nth-child(3) {
-  border: 1px solid #000000;
-  border-top: none;
-  text-align: center;
-}
-.dc-rack td { vertical-align: middle; }
-
 footer {
   border-top: #eee 1px solid;
   line-height: 0.7em;
