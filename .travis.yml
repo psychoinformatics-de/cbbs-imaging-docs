@@ -1,0 +1,18 @@
+# vim ft=yaml
+# travis-ci.org definition for cbbs imaging documentation site
+language: python
+
+python:
+  - 2.7
+
+cache:
+  - apt
+
+before_install:
+  - travis_retry sudo apt-get update -qq
+
+install:
+  - travis_retry sudo apt-get install pelican
+
+script:
+  - make html
