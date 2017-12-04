@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %} &ndash; {{ page.title }}{% endblock %}
+
+{% block content %}
+<article>
+  <header>
+    <nav>
+      <ul class="breadcrumbs">
+        <li><a href="/">Home</a></li>
+        {% for parent in page.parents %}
+        <li> > <a href="/{{ parent.url }}">{{ parent.title }}</a></li>
+        {% endfor %}
+        <li> > {{ page.title }}</li>
+      </ul>
+    </nav>
+    <h1>{{ page.title }}</h1>
+  </header>
+
+  <div>
+    {{ page.content }}
+  </div>
+</article>
+{% endblock %}
