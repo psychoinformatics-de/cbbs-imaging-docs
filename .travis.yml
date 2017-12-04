@@ -1,19 +1,21 @@
-# vim ft=yaml
-# travis-ci.org definition for cbbs imaging documentation site
 language: python
-
 python:
-  - 2.7
-
+- 2.7
 cache:
-  - apt
+- apt
+env:
+  global:
+  - secure: sxKLwl1GW+BZARioDNBQx+9QmnaFKDvYTvNfBJuPQ30AwxQdfypAFxYNJlNyBCEhNyAxQr89/9DuXVcaPYnTDserqMwg1+1HE0R6ap192Disf3U47hz9GjlcvFTwKMgOQA2prlnBRFugPJcdv2+Dk9NptA5oRUkKlqnbkl80sJdzx2q2BPdNXGzRAJjpAYujVx5tYkCYixOKhd9TMPGY5pmv9sB9TpHJwL6etOERBGSkTtU/UtuJAaca+UAul9gjLGgtGoWiLs4IP0LIpna+Gu5PB6mmuMLm8I6vZONbwD0EnohK1iksTOJDynH4oVmnjJKVN+53AwoisA3GHqfdjxa3dH/BOSNZ8QoV8e7kfSzaUIP409kp7TnMmyn6FobSpoXsUPo674mjPk/jlFbdOFXlGpy3hlMtFXQ9zjcSog2qJUU6t8u1TKDnqnuAMlBWyeJ2DO3BJ/iE9PXtvA/UU4BEG/Chp+2P64YylVRgiDnL1fzHYOWIkn/Okzo27RKUVAoPCwG3cxWs4Pc8+VH23bltRKqiJpbjpBYzSxSBnMa1Q3+c8j5DwlL9P/TtsDkCj9cXV7yHWpD6kc8ahqt2f9bJFBdv/tBQ1Rg9U2Ej2+1tJzG6MzsygP+VENvPtQRxj0rCAJZ1MaWMD+9eKLir7N9sotI3X59ohP36/fFeTq8=
+  - secure: Y3AYsGocIIIE8tGZUKjOW22EPCFbUt/DDIBaQJMlbThUpMBrWKk9OjlIXRFWEDubGj2pIpjXvlA7I9Pe2/1ZcX29/SGDeSNAqrGHvhF08ZxeRqzd1oyTdnj+CKqdQv7ehN3DYnMEn0ymH4eAfQncvK5IV4w2Xu8WGA8okG8xKp40Sp+5Gmz8tywzta6x8vSY9mHp48rTNHpnEq4zgbl4kT94RzPVVCY31mS7+1ZJU7o0hJD5v9Izx5WRiouuqDWFn4B66LLICCc20wQk5Ljn2LlOmEhwktl+6V8xGaDB4QIlN18vLmCHb/SGm1VcbMs9jY/UDazsn7iSCBqU3GKo0fL9/zt0/3w1oKIZz0/29ziNz+wfDZOtATMhrtGn/EXbtNTe02ydvNx4x7V4dP87JN7El7TLQSN/IB8weiGh5UnpILqJ59zYm7JCnwfQI7AvVVv4LSwxWCMdpwprnVnkjPfH4Jsl/fyRPM0EJti3OH0vHE8+uThRUjCU5OIQ05lfpJqLoQMkTxV3e7MOJSbJwarpQ3J5awtvAef0HFnu5NZsqv/nwamTweaZXOSvgS9mcgzfwsFT6Sm/u+FIq22nitwfMCmgVMQ2KFhshFyGZCYthJK5IvN4hSxHSE59dFLlsFFB9QRjWIftqBGJwjMtPcg64BwacLbCxZIoNB0XJ/w=
+  - secure: IlMgYFhk3RRAvyBFJT2xl7Z/gJB2c+1VUPNLzQuGxkGQMWdDnEhNNTI+gBEitkNUWtzHoRWzB8QyYfUNOntvHWj8ZpY46DfbWQ7vUnfIcLxxwkRngUqGjl4tUVW40oKYxz0ISe5qof2zQMbhy4K82YbR5vklflR1K9nCPNOK16mE7jo5kz0O6S3u5Wc9NnPGPC2OvV32rLyeA3ng9OmLoT8JGs7iJkJBjOKNrVl1OYCYt1vH2RWjCBZDGJtZ3EhNJnPCGhw8w+oeZx1I08RqWKf2g91EUbqxmvzibmqz7eQpokMiglIDHm1h3hm9c44Rw4R0mPG1Us5wvpFVKtF+VkHIcF4hSZc3pjYeeYAxHNTWu1fcRObL9OopJlkcQR8DgUcuP/01B9mWGdPk+C9H612TRbLlnnX8lnVtLrZSs+DJOjvJ+GghF0dtxqhIZxuUV1WPYzFC6E8RlVSoboAQdj2zWtUShW6901NOA7o/wLqXSf3CsSQJKBlhRDeRjKu1GTjWAWaiFZXKhwaqkJqjUBjZUwuTqGvRKs5H/DOX+ostUqWx+2ZrEu8KLrwgKkU+3YyEmtpQksdGcuDfvaL0Znw75SIbt0rzPnMadBNVPwh4OZW1I0wEylkx0SiMptY6WgILmhRomUGj60T5okMKSQjL+xFjZuKO6kcUvqkd9YY=
 
 before_install:
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "Exiting early since this build should run only in master branch"; exit 0; fi
   - travis_retry sudo apt-get update -qq
-
 install:
   - travis_retry sudo apt-get install python-pelican
-
 script:
   - make clean
   - make html
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash travis_deploy.sh; fi
+
