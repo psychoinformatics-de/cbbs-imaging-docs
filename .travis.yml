@@ -15,4 +15,5 @@ install:
   - travis_retry sudo apt-get install python-pelican
 
 script:
+  - make clean
   - make html
