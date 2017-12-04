@@ -5,10 +5,26 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Team Brawndo" />
-  <title>CBBS Imaging Docs &ndash; Welcome</title>
+  <title>CBBS Imaging Docs &mdash; Search</title>
   <link rel="license" hreflang="en" href="/copyright.html" />
 
   <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+  <script src="/theme/ts/jquery-3.2.1.min.js"></script>
+  <script src="/tipuesearch_content.json"></script>
+  <script src="/theme/ts/tipuesearch_set.js"></script>
+  <script src="/theme/ts/tipuesearch.min.js"></script>
+  <script>
+  $(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+      'mode': 'json',
+      'contentLocation': '/tipuesearch_content.json',
+      'show': 1000,
+      'showTitleCount': false,
+      'showTime': false,
+      'showURL': false
+    });
+  });
+  </script>
 </head>
 
 <body>
@@ -34,17 +50,13 @@
     <nav>
       <ul class="breadcrumbs">
         <li><a href="/">Home</a></li>
-        <li> > Welcome</li>
+        <li> > Search</li>
       </ul>
     </nav>
-    <h1>Welcome</h1>
+    <h1>Search Results</h1>
   </header>
 
-  <div>
-    <p>An obligatory <a class="reference external" href="https://xkcd.com">XKCD</a> comic:</p>
-<img alt="" src="https://imgs.xkcd.com/comics/fmri.png" />
-
-  </div>
+  <div id="tipue_search_content"><div id="tipue_search_loading"></div></div>
 </article>
     </div>
 
