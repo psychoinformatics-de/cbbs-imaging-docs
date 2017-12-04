@@ -11,7 +11,7 @@ echo "https://${GH_TOKEN}:x-oauth-basic@github.com" > .git/credentials
 # commit new docs folder and push
 git add docs/* -f
 git commit -m "Automatically updated github page"
-git push
+git push origin HEAD:master
 
 rm .git/credentials
 
