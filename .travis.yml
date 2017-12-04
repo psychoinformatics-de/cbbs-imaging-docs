@@ -12,6 +12,8 @@ before_install:
   - travis_retry sudo apt-get update -qq
 
 install:
+  # temp: test what's going on on travis:
+  - sudo apt-cache search pelican
   - travis_retry sudo apt-get install pelican
 
 script:
