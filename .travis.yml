@@ -10,7 +10,6 @@ env:
   - secure: IlMgYFhk3RRAvyBFJT2xl7Z/gJB2c+1VUPNLzQuGxkGQMWdDnEhNNTI+gBEitkNUWtzHoRWzB8QyYfUNOntvHWj8ZpY46DfbWQ7vUnfIcLxxwkRngUqGjl4tUVW40oKYxz0ISe5qof2zQMbhy4K82YbR5vklflR1K9nCPNOK16mE7jo5kz0O6S3u5Wc9NnPGPC2OvV32rLyeA3ng9OmLoT8JGs7iJkJBjOKNrVl1OYCYt1vH2RWjCBZDGJtZ3EhNJnPCGhw8w+oeZx1I08RqWKf2g91EUbqxmvzibmqz7eQpokMiglIDHm1h3hm9c44Rw4R0mPG1Us5wvpFVKtF+VkHIcF4hSZc3pjYeeYAxHNTWu1fcRObL9OopJlkcQR8DgUcuP/01B9mWGdPk+C9H612TRbLlnnX8lnVtLrZSs+DJOjvJ+GghF0dtxqhIZxuUV1WPYzFC6E8RlVSoboAQdj2zWtUShW6901NOA7o/wLqXSf3CsSQJKBlhRDeRjKu1GTjWAWaiFZXKhwaqkJqjUBjZUwuTqGvRKs5H/DOX+ostUqWx+2ZrEu8KLrwgKkU+3YyEmtpQksdGcuDfvaL0Znw75SIbt0rzPnMadBNVPwh4OZW1I0wEylkx0SiMptY6WgILmhRomUGj60T5okMKSQjL+xFjZuKO6kcUvqkd9YY=
 
 before_install:
-  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "Exiting early since this build should run only in master branch"; exit 0; fi
   - travis_retry sudo apt-get update -qq
 install:
   - travis_retry sudo apt-get install python-pelican
