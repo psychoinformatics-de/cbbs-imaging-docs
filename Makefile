@@ -1,3 +1,5 @@
+# pointless comment
+
 PY?=python
 PELICAN?=pelican
 PELICANOPTS=
