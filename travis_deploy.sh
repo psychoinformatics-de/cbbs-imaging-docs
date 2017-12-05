@@ -13,7 +13,7 @@ echo "https://${GH_TOKEN}:x-oauth-basic@github.com" > .git/credentials
 
 # switch to branch gh-pages and get the fresh build
 git remote -v show
-git fetch origin
+git fetch origin --unshallow
 git branch -a
 git checkout origin/gh-pages
 rsync -r docs/ .
