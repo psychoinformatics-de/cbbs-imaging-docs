@@ -21,6 +21,9 @@ template, you'll need to setup the build environment. Don't worry; it's easy.
 
 * install pelican (``apt-get install pelican`` on Debian; ``pip install --user
   pelican`` on other OSs.)
+* install beautifulsoup4 (again: ``apt-get install python-beautifulsoup`` or
+  ``pip install --user beautifulsoup4`` respectively), which is required by some
+  pelican plugins we use
 * run ``make devserver``
 * open a browser to ``http://127.0.0.1:8000``
 

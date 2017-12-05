@@ -1,8 +1,6 @@
-# pointless comment
-
 PY?=python
 PELICAN?=pelican
-PELICANOPTS=
+PELICANOPTS=--fatal errors
 
 BASEDIR=$(CURDIR)
 INPUTDIR=$(BASEDIR)/content

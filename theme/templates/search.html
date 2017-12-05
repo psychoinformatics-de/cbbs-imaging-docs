@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block title %} &mdash; Search{% endblock %}
 {% block extra_headers %}
-  <script src="/theme/ts/jquery-3.2.1.min.js"></script>
-  <script src="/tipuesearch_content.json"></script>
-  <script src="/theme/ts/tipuesearch_set.js"></script>
-  <script src="/theme/ts/tipuesearch.min.js"></script>
+  <script src="{{ SITEURL }}/theme/ts/jquery-3.2.1.min.js"></script>
+  <script src="{{ SITEURL }}/tipuesearch_content.json"></script>
+  <script src="{{ SITEURL }}/theme/ts/tipuesearch_set.js"></script>
+  <script src="{{ SITEURL }}/theme/ts/tipuesearch.min.js"></script>
   <script>
   $(document).ready(function() {
     $('#tipue_search_input').tipuesearch({
@@ -24,7 +24,7 @@
   <header>
     <nav>
       <ul class="breadcrumbs">
-        <li><a href="/">Home</a></li>
+        <li><a href="{{ SITEURL }}/">Home</a></li>
         <li> > Search</li>
       </ul>
     </nav>
