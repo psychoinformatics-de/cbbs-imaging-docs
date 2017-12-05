@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Team Brawndo" />
   <title>CBBS Imaging Docs &ndash; Contributing to the Docs</title>
-  <link rel="license" hreflang="en" href="/copyright.html" />
+  <link rel="license" hreflang="en" href="../copyright.html" />
 
-  <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="../theme/css/style.css">
 </head>
 
 <body>
@@ -17,15 +17,15 @@
     <nav>
       <ul>
 
-              <li><a href="/services/">Services Provided</a></li>
-              <li><a href="/faq/">Frequently Asked Questions</a></li>
+              <li><a href="../services/">Services Provided</a></li>
+              <li><a href="../faq/">Frequently Asked Questions</a></li>
               <li>
-                <a class="active" href="/contributing/">Contributing to the Docs</a>
+                <a class="active" href="../contributing/">Contributing to the Docs</a>
 
               </li>
       </ul>
     </nav>
-    <form class="searchbox" action="/search.html">
+    <form class="searchbox" action="../search.html">
       <input type="text" name="q" id="tipue_search_input" placeholder="Search">
     </form>
   </aside>
@@ -36,7 +36,7 @@
   <header>
     <nav>
       <ul class="breadcrumbs">
-        <li><a href="/">Home</a></li>
+        <li><a href="../">Home</a></li>
         <li> > Contributing to the Docs</li>
       </ul>
     </nav>
@@ -59,6 +59,9 @@ template, you'll need to setup the build environment. Don't worry; it's easy.</p
 <ul class="simple">
 <li>install pelican (<tt class="docutils literal"><span class="pre">apt-get</span> install pelican</tt> on Debian; <tt class="docutils literal">pip install <span class="pre">--user</span>
 pelican</tt> on other OSs.)</li>
+<li>install beautifulsoup4 (again: <tt class="docutils literal"><span class="pre">apt-get</span> install <span class="pre">python-beautifulsoup</span></tt> or
+<tt class="docutils literal">pip install <span class="pre">--user</span> beautifulsoup4</tt> respectively), which is required by some
+pelican plugins we use</li>
 <li>run <tt class="docutils literal">make devserver</tt></li>
 <li>open a browser to <tt class="docutils literal"><span class="pre">http://127.0.0.1:8000</span></tt></li>
 </ul>
@@ -72,7 +75,7 @@ pelican</tt> on other OSs.)</li>
       <p><small>
         content licensed <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">cc-by-sa</a>
         <span class='break'>—</span> ©2017–2018 Team Brawndo <span class='break'>—</span>
-        unless <a rel="license" href='/copyright.html'>indicated otherwise</a>
+        unless <a rel="license" href='../copyright.html'>indicated otherwise</a>
       </small></p>
     </footer>
   </main>
