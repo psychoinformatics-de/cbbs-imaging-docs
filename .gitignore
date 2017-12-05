@@ -1,0 +1,6 @@
+docs
+pelican-plugins
+pelican.pid
+srv.pid
+*.pyc
+
