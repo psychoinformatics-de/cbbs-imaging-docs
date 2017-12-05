@@ -2,6 +2,9 @@
 # simple script to use travis-encrypted github token and git user for updating docs folder whenever master branch was updated.
 # It assumes that make was done before and therefore docs is up-to-date locally.
 
+set -x
+git --version
+
 # set up git and github access
 git config user.name $GIT_NAME
 git config user.email $GIT_EMAIL
@@ -11,6 +14,7 @@ echo "https://${GH_TOKEN}:x-oauth-basic@github.com" > .git/credentials
 # switch to branch gh-pages and get the fresh build
 git remote -v show
 git fetch origin
+git branch -a
 git checkout origin/gh-pages
 rsync -r docs/ .
 
