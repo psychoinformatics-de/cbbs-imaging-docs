@@ -2,14 +2,13 @@
 {% block title %} &mdash; Search{% endblock %}
 {% block extra_headers %}
   <script src="{{ SITEURL }}/theme/ts/jquery-3.2.1.min.js"></script>
-  <script src="{{ SITEURL }}/tipuesearch_content.json"></script>
   <script src="{{ SITEURL }}/theme/ts/tipuesearch_set.js"></script>
   <script src="{{ SITEURL }}/theme/ts/tipuesearch.min.js"></script>
   <script>
   $(document).ready(function() {
     $('#tipue_search_input').tipuesearch({
       'mode': 'json',
-      'contentLocation': '/tipuesearch_content.json',
+      'contentLocation': '{{ SITEURL }}/tipuesearch_content.json',
       'show': 1000,
       'showTitleCount': false,
       'showTime': false,
