@@ -10,14 +10,13 @@
 
   <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
   <script src="./theme/ts/jquery-3.2.1.min.js"></script>
-  <script src="./tipuesearch_content.json"></script>
   <script src="./theme/ts/tipuesearch_set.js"></script>
   <script src="./theme/ts/tipuesearch.min.js"></script>
   <script>
   $(document).ready(function() {
     $('#tipue_search_input').tipuesearch({
       'mode': 'json',
-      'contentLocation': '/tipuesearch_content.json',
+      'contentLocation': './tipuesearch_content.json',
       'show': 1000,
       'showTitleCount': false,
       'showTime': false,
