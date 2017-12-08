@@ -106,6 +106,21 @@ main {
 }
 main #content { flex: 1; }
 
+main #funders {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  max-height: 100px;
+}
+main #cbbs, #efre {
+  object-fit: contain;
+  padding: 15px;
+  box-sizing: border-box;
+  max-height: inherit;
+}
+
 @media screen and (min-width: 768px) {
   aside {
     width: 18em;
