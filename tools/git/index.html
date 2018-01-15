@@ -29,7 +29,7 @@
                   </li>
                   <li>
                     <a class="active" href="../../tools/git/">Git</a>
-                  </li>
+<div id="toc"><ul><li><a class="toc-href" href="#install" title="Install">Install</a></li><li><a class="toc-href" href="#setup" title="Setup">Setup</a></li><li><a class="toc-href" href="#basic-commands" title="Basic Commands">Basic Commands</a></li><li><a class="toc-href" href="#github" title="GitHub">GitHub</a></li><li><a class="toc-href" href="#resources" title="Resources">Resources</a></li></ul></div>                  </li>
                 </ul>
               </li>
               <li><a href="../../faq/">Frequently Asked Questions</a></li>
@@ -61,7 +61,103 @@
   </header>
 
   <div>
-    
+    <p>Git enables you to track the changes made to files over time &mdash; specifically:
+what changed, by whom, when, and why. It also gives you the capability to revert
+files back to a previous state. Over time, as your project evolves, you can edit
+your files with confidence knowing that at any point you can look back and
+recover a previous version.</p>
+<div class="section" id="install">
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<dl class="docutils">
+<dt><strong>Debian/Ubuntu</strong></dt>
+<dd><pre class="code first last literal-block">
+sudo apt-get install git
+</pre>
+</dd>
+<dt><strong>macOS</strong></dt>
+<dd>Download the installer at: <a class="reference external" href="https://git-scm.com/download/mac">https://git-scm.com/download/mac</a></dd>
+<dt><strong>Windows</strong></dt>
+<dd>Download the installer at: <a class="reference external" href="https://git-scm.com/download/win">https://git-scm.com/download/win</a></dd>
+</dl>
+</div>
+<div class="section" id="setup">
+<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<p>Once Git is installed, configure it with your name and email address. This lets
+Git know who you are so that it can associate you with the commits you make.</p>
+<pre class="code literal-block">
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+</pre>
+</div>
+<div class="section" id="basic-commands">
+<h2 id="basic-commands">Basic Commands<a class="headerlink" href="#basic-commands" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<dl class="docutils">
+<dt><tt class="docutils literal">git init</tt></dt>
+<dd>Tells git to enable tracking of changes that happen in this folder.</dd>
+<dt><tt class="docutils literal">git clone &lt;url&gt; | &lt;user@server:path/to/repo.git&gt;</tt></dt>
+<dd>Makes a full copy of an existing <a class="reference external" href="https://help.github.com/articles/github-glossary/#repository">git repository</a> &mdash; all
+files, folders, changes, history, etc.</dd>
+<dt><tt class="docutils literal">git status</tt></dt>
+<dd>Lists which files are in which state &mdash; if there have been changes made, new
+files added or deleted, etc.</dd>
+<dt><tt class="docutils literal">git add &lt;file&gt;</tt></dt>
+<dd><p class="first">To begin tracking a new file. Once you run <tt class="docutils literal">git add</tt>, your file will be
+tracked and <strong>staged</strong> to be committed.</p>
+<dl class="last docutils">
+<dt><tt class="docutils literal">git add <span class="pre">-p</span></tt></dt>
+<dd>Review the changes you've made and select which will be <strong>staged</strong>.</dd>
+</dl>
+</dd>
+<dt><tt class="docutils literal">git commit</tt></dt>
+<dd>Commits all the <strong>staged</strong> changes (done with <tt class="docutils literal">git add</tt>). It will prompt you
+for a <strong>commit message</strong>, which should be a terse but descriptive note about
+the changes contained in the commit. These commit messages are your project's
+history.</dd>
+<dt><tt class="docutils literal">git rm &lt;file&gt;</tt></dt>
+<dd>Stages the file to be removed. After you commit, the file will be removed and
+no longer tracked. But the file does remain in the project history.</dd>
+<dt><tt class="docutils literal">git mv <span class="pre">&lt;file-from&gt;</span> <span class="pre">&lt;file-to&gt;</span></tt></dt>
+<dd>Moves/renames a file.</dd>
+<dt><tt class="docutils literal">git log</tt></dt>
+<dd>Lists your commit history. It's not as user-friendly or easy-to-navigate as
+<tt class="docutils literal">tig</tt>.</dd>
+<dt><tt class="docutils literal">tig</tt></dt>
+<dd>A text-mode interface for git that allows you to easily browse through your
+commit history. It is not part of git and will need to be installed (<tt class="docutils literal"><span class="pre">apt-get</span>
+install tig</tt> for Debian/Ubuntu; <a class="reference external" href="https://github.com/jonas/tig/blob/master/INSTALL.adoc#installation-using-homebrew">Homebrew instructions</a>
+for macOS)</dd>
+<dt><tt class="docutils literal">git push</tt></dt>
+<dd>Push your local changes to another repository, for example on GitHub.</dd>
+<dt><tt class="docutils literal">git pull</tt></dt>
+<dd>Pull changes from another repository to your local repository.</dd>
+</dl>
+</div>
+<div class="section" id="github">
+<h2 id="github">GitHub<a class="headerlink" href="#github" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<p>GitHub is an online platform where you can store and share your projects; it is
+especially well suited for working on a project with several other people. It
+acts as a central place where everyone can access/contribute to the project and
+offers several useful tools (issues, wikis, project milestones, user management,
+etc) that make collaboration simple and easy.</p>
+<p>To create a profile, go to <a class="reference external" href="https://github.com/join?source=header-home">GitHub</a>, and from there, follow the
+prompts to create your account.</p>
+</div>
+<div class="section" id="resources">
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<p>GitHub offers an <a class="reference external" href="https://try.github.io/levels/1/challenges/1">interactive Git tutorial</a> that is a great starting point
+for beginners.</p>
+<p>The free <a class="reference external" href="https://git-scm.com/book/en/v2">Pro Git Book</a> covers just about
+everything Git has to offer using clear and easy-to-understand language. It
+starts with the basics, but builds up to some of Git's more complex features.</p>
+<p>If you like video tutorials, the <a class="reference external" href="https://youtu.be/PFwUHTE6mFc">Intro to Git and GitHub</a> and <a class="reference external" href="https://youtu.be/u6G3fbmpWr8">The Basics of Git and GitHub</a> videos are worth watching if you're still
+unsure about the basics of Git and GitHub and want a step-by-step explanation of
+how to get started.</p>
+<p>For any questions you might have about using GitHub, see <a class="reference external" href="https://help.github.com/">GitHub Help</a>.</p>
+<p>The <a class="reference external" href="https://git-scm.com/docs">Git Reference Manual</a> is the official docs for
+Git. It has all the information you could want to know about Git, but is pretty
+dense and better suited for intermediate and advanced users.</p>
+</div>
+
   </div>
 </article>
     </div>
