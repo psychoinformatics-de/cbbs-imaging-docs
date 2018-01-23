@@ -8,10 +8,11 @@ OUTPUTDIR=$(BASEDIR)/docs
 CONFFILE=$(BASEDIR)/pelicanconf.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
 
-SSH_HOST=kumo.ovgu.de
-SSH_PORT=22
-SSH_USER=
-SSH_TARGET_DIR=/var/www/docs.cbbs.eu/www
+# This is invalid ATM:
+# SSH_HOST=kumo.ovgu.de
+# SSH_PORT=22
+# SSH_USER=
+# SSH_TARGET_DIR=/var/www/docs.cbbs.eu/www
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
@@ -61,10 +62,10 @@ stopserver:
 publish:
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 
-ssh_upload: publish
-	scp -P $(SSH_PORT) -r $(OUTPUTDIR)/* $(SSH_USER)@$(SSH_HOST):$(SSH_TARGET_DIR)
+#ssh_upload: publish
+#	scp -P $(SSH_PORT) -r $(OUTPUTDIR)/* $(SSH_USER)@$(SSH_HOST):$(SSH_TARGET_DIR)
 
-rsync_upload: publish
-	rsync -e "ssh -p $(SSH_PORT)" -P -rvzc --delete $(OUTPUTDIR)/ $(SSH_USER)@$(SSH_HOST):$(SSH_TARGET_DIR) --cvs-exclude
+#rsync_upload: publish
+#	rsync -e "ssh -p $(SSH_PORT)" -P -rvzc --delete $(OUTPUTDIR)/ $(SSH_USER)@$(SSH_HOST):$(SSH_TARGET_DIR) --cvs-exclude
 
-.PHONY: html help clean devserver stopserver publish ssh_upload rsync_upload
+.PHONY: html help clean devserver stopserver publish
