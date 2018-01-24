@@ -1,3 +1,3 @@
-DICOM Conversion
-****************
+Raw Data Conversion
+*******************
 :order: 410
