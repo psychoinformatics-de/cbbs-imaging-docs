@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Team Brawndo" />
-  <title>CBBS Imaging Docs &ndash; Raw Data Conversion</title>
+  <title>CBBS Imaging Docs &ndash; Creating a study dataset</title>
   <link rel="license" hreflang="en" href="../../copyright.html" />
 
   <link rel="stylesheet" type="text/css" href="../../theme/css/style.css">
@@ -23,10 +23,10 @@
 
                 <ul>
                   <li>
-                    <a href="../../processing/creation/">Creating a study dataset</a>
-                  </li>
+                    <a class="active" href="../../processing/creation/">Creating a study dataset</a>
+<div id="toc"><ul><li><a class="toc-href" href="#adding-an-mri-session" title="Adding an MRI session">Adding an MRI session</a></li></ul></div>                  </li>
                   <li>
-                    <a class="active" href="../../processing/conversion/">Raw Data Conversion</a>
+                    <a href="../../processing/conversion/">Raw Data Conversion</a>
                   </li>
                 </ul>
               </li>
@@ -54,14 +54,27 @@
       <ul class="breadcrumbs">
         <li><a href="../../">Home</a></li>
         <li> > <a href="../../processing/">Data Processing</a></li>
-        <li> > Raw Data Conversion</li>
+        <li> > Creating a study dataset</li>
       </ul>
     </nav>
-    <h1>Raw Data Conversion</h1>
+    <h1>Creating a study dataset</h1>
   </header>
 
   <div>
-    
+    <p>Start off with a clone of <a class="reference external" href="https://github.com/psychoinformatics-de/cbbs-imaging-container-import">https://github.com/psychoinformatics-de/cbbs-imaging-container-import</a>,
+which also provides additional tools apart from sheer creation.</p>
+<p>Then run <tt class="docutils literal">singularity run <span class="pre">cbbs-imaging-container-import/cbbs-imaging.simg</span> create <span class="pre">[TARGET-DIR]</span></tt>.
+If you don't provide a target dir, the dataset will be created in the current working directory.</p>
+<div class="section" id="adding-an-mri-session">
+<h2 id="adding-an-mri-session">Adding an MRI session<a class="headerlink" href="#adding-an-mri-session" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<p>The above mentioned container also provides a command to import a tarball for a session.
+This will result in a subdataset with the DICOMs in it, that provides the DICOM metadata for easy access via <cite>datalad</cite>.</p>
+<p>To import such a tarball run <tt class="docutils literal">singularity run <span class="pre">cbbs-imaging-container-import/cbbs-imaging.simg</span> import [TARBALL]</tt>.
+Note, that TARBALL needs to be an absolute path at the moment.
+A session name like <cite>af29_0678</cite> will be derived from the dicoms' metadata and a subdirectory with that is created.
+In that subdirectory you should then find a <cite>studyspec.json</cite>, which is needed for conversion later on and a subdirectory <cite>dicoms</cite>, which is in fact a subdataset containing the actual dicoms.</p>
+</div>
+
   </div>
 </article>
     </div>
