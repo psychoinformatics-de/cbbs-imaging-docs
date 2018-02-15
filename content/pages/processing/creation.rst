@@ -8,13 +8,8 @@ Start off by installing https://github.com/psychoinformatics-de/cbbs-imaging-con
 which also provides additional tools apart from sheer creation:
 ``datalad install -s https://github.com/psychoinformatics-de/cbbs-imaging-container-import [INSTALL-DIR]``
 
-After successful installation run the following two commands:
-
-``datalad siblings -d INSTALL_DIR add -s psydata --url http://psydata.ovgu.de/cbbs-imaging/conv-container/.git``
-This will register the sibling hosted by OvGU, that serves as a data storage.
-
+After successful installation run the following command to retrieve the actual container image:
 ``datalad get INSTALL-DIR/cbbs-imaging.simg``
-This one will finally get you the actual container.
 
 Dataset creation
 ----------------
