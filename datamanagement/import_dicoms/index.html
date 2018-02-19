@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Team Brawndo" />
-  <title>CBBS Imaging &ndash; 7T Siemens Magnetom</title>
+  <title>CBBS Imaging &ndash; Import DICOMs</title>
   <link rel="license" hreflang="en" href="../../copyright.html" />
 
   <link rel="stylesheet" type="text/css" href="../../theme/css/style.css">
@@ -17,35 +17,26 @@
     <nav>
       <ul>
 
-              <li><a href="../../datamanagement/">Data Management</a></li>
-              <li><a href="../../analysis/">Data Analysis</a></li>
               <li>
-                <a href="../../devices/">Acquisition Hardware</a>
+                <a href="../../datamanagement/">Data Management</a>
 
                 <ul>
                   <li>
-                    <a class="active" href="../../devices/magnetom/">7T Siemens Magnetom</a>
+                    <a href="../../datamanagement/study_setup/">Initial study setup</a>
                   </li>
                   <li>
-                    <a href="../../devices/achieva/">3T Philips Achieva</a>
+                    <a class="active" href="../../datamanagement/import_dicoms/">Import DICOMs</a>
                   </li>
                   <li>
-                    <a href="../../devices/prisma/">3T Siemens Prisma</a>
+                    <a href="../../datamanagement/conversion/">Raw Data Conversion</a>
                   </li>
                   <li>
-                    <a href="../../devices/skyra/">3T Siemens Skyra</a>
-                  </li>
-                  <li>
-                    <a href="../../devices/verio/">3T Siemens Verio</a>
-                  </li>
-                  <li>
-                    <a href="../../devices/eyelink/">Eyelink 1000</a>
-                  </li>
-                  <li>
-                    <a href="../../devices/stadlerphysio/">Physio box</a>
+                    <a href="../../datamanagement/tools/">Tools</a>
                   </li>
                 </ul>
               </li>
+              <li><a href="../../analysis/">Data Analysis</a></li>
+              <li><a href="../../devices/">Acquisition Hardware</a></li>
               <li><a href="../../containers/">Computational Environments</a></li>
               <li><a href="../../contributing/">Contributing</a></li>
       </ul>
@@ -67,15 +58,23 @@
     <nav>
       <ul class="breadcrumbs">
         <li><a href="../../">Home</a></li>
-        <li> > <a href="../../devices/">Acquisition Hardware</a></li>
-        <li> > 7T Siemens Magnetom</li>
+        <li> > <a href="../../datamanagement/">Data Management</a></li>
+        <li> > Import DICOMs</li>
       </ul>
     </nav>
-    <h1>7T Siemens Magnetom</h1>
+    <h1>Import DICOMs</h1>
   </header>
 
   <div>
-    <p>This is just a placeholder.</p>
+    <p>The above mentioned container also provides a command to import a tarball for a session.
+This will result in a subdataset with the DICOMs in it, that provides the DICOM metadata for easy access via <cite>datalad</cite>.</p>
+<p>To import such a tarball just run
+<tt class="docutils literal">singularity run <span class="pre">[--bind=/path/to/tarball]</span> <span class="pre">INSTALL-DIR/cbbs-imaging.simg</span> import [TARBALL]</tt>
+from within your study dataset. You don't need to be at its root directory, but you need to make sure, you aren't accidentally in a subdataset. Therefore the study dataset's root is a safe practice to follow.</p>
+<p>Note, that TARBALL needs to be an absolute path at the moment.
+Particularly if TARBALL is located outside your HOME directory, you may need to provide its location to the container via the <cite>--bind</cite> option.</p>
+<p>A session name like <cite>af29_0678</cite> will be derived from the dicoms' metadata and a subdirectory with that is created.
+In that subdirectory you should then find a <cite>studyspec.json</cite>, which is needed for conversion later on and a subdirectory <cite>dicoms</cite>, which is in fact a subdataset containing the actual dicoms.</p>
 
   </div>
 </article>
