@@ -23,7 +23,7 @@
 
                 <ul>
                   <li>
-                    <a href="../processing/creation/">Creating a study dataset</a>
+                    <a href="../processing/creation/">Initial study setup</a>
                   </li>
                   <li>
                     <a href="../processing/conversion/">Raw Data Conversion</a>
@@ -60,8 +60,34 @@
   </header>
 
   <div>
-    <p>Sub pages should describe what we support and what those steps do exactly. Focus on the individual technique
-and not on the general nature of the processing (i.e. container handling, etc)</p>
+    <p>The fundamental concept of this platform is that data are first transformed
+into a standard layout using common file formats, so that all processing
+pipelines can expect a deterministic, well described data structure. This setup
+enables the development of data processing components that are agnostic of the
+peculiarities of individual studies, as long as all relevant aspects of a study
+are properly described. The necessary data conversion and layout are performed
+largely automatic. The procedures are tuned for data acquired in Magdeburg,
+but with minor extra effort data form other sources can be processed too.</p>
+<p>For each study the following steps will be performed:</p>
+<ol class="arabic simple">
+<li>Initial study setup: <a class="reference external" href="../processing/creation/">create a study raw dataset</a></li>
+<li>Import a new acquisition (repeated as necessary):<ul>
+<li><a class="reference external" href="{filename}processing/import_dicom.rst">Import a DICOM dataset</a></li>
+<li>Import other data modalities</li>
+</ul>
+</li>
+<li>Complete study description (if necessary):<ul>
+<li>Identify data that were acquired simultaneously during an acquisition</li>
+<li>Associate stimulation and behavior logs with (MR) data acquisitions</li>
+<li>Identify data formats/converters for non-standard acquisitions (e.g. custom hardware)</li>
+</ul>
+</li>
+<li>Convert raw data into the common data structure<ul>
+<li>Verify result of automatic conversion (automatic validation tools are available)</li>
+</ul>
+</li>
+<li>Apply analysis procedure</li>
+</ol>
 
   </div>
 </article>
