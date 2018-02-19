@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 # About the site
 #
 AUTHOR = u'Team Brawndo'
-SITENAME = u'CBBS Imaging Docs'
+SITENAME = u'CBBS Imaging'
 SITEURL = ''
 
 TIMEZONE = 'Europe/Berlin'

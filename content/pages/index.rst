@@ -5,6 +5,9 @@ Welcome
 :status: hidden
 :order: 001
 
-An obligatory `XKCD <https://xkcd.com>`_ comic:
+Add high-level description on what this does, for whom, under which conditions.
 
-.. image:: https://imgs.xkcd.com/comics/fmri.png
+Roadmap
+=======
+
+- Milestone: Automatic DICOM import and metadata extraction
