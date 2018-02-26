@@ -9,7 +9,7 @@ And... while bug reports are welcome, patches are *even more* welcome. ;-)
 
 The git repository for this site is `hosted on GitHub`_. If you are not already
 familiar with git and/or GitHub, read
-`our git documentation <{filename}tools/git.rst>`_ first.
+`our git documentation <{filename}/pages/datamanagement/tools/git.rst>`_ first.
 
 If your proposed fix is limited to content, then you can probably skip setting
 up the build system. You can simply make your changes (content is written in

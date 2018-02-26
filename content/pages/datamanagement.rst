@@ -13,11 +13,11 @@ but with minor extra effort data form other sources can be processed too.
 
 For each study the following steps will be performed:
 
-1. Initial study setup: `create a study raw dataset <{filename}processing/creation.rst>`_
+1. Initial study setup: `create a study raw dataset <{filename}datamanagement/study_setup.rst>`_
 
 2. Import a new acquisition (repeated as necessary):
 
-   - `Import a DICOM dataset <{filename}processing/import_dicom.rst>`_
+   - `Import a DICOM dataset <{filename}datamanagement/import_dicoms.rst>`_
 
    - Import other data modalities
 

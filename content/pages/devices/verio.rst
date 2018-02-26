@@ -2,4 +2,9 @@
 ****************
 :order: 612
 
-This is just a placeholder.
+Platform compatibility
+----------------------
+
+This device is similar to the `Siemens Prisma
+<{filename}prisma.rst>`_, hence it should feature the same compatibility
+level. However, no explicit tests have been made yet.

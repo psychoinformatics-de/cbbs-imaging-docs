@@ -2,4 +2,8 @@
 ******************
 :order: 611
 
-This is just a placeholder.
+Platform compatibility
+----------------------
+
+- DICOM import
+- DICOM metadata extraction and indexing
