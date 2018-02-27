@@ -57,14 +57,12 @@
     <form class="searchbox" action="{{ SITEURL }}/search.html">
       <input type="text" name="q" id="tipue_search_input" placeholder="Search">
     </form>
+    <img src="{{ SITEURL }}/theme/img/cbbs_logo.png" alt="CBBS Logo">
+    <img src="{{ SITEURL }}/theme/img/EFRE_logo.png"
+         alt="Signets of Saxony-Anhalt and the European Regional Development Fund">
   </aside>
 
   <main>
-    <div id="funders">
-      <img id="cbbs" src="{{ SITEURL }}/theme/img/cbbs_logo.png" alt="Logo of CBBS">
-      <img id="efre" src="{{ SITEURL }}/theme/img/EFRE_rgb_web.jpg"
-           alt="Signets of Saxony-Anhalt and the European Regional Development Fund">
-    </div>
     <div id='content'>
     {% block content %}{% endblock %}
     </div>
