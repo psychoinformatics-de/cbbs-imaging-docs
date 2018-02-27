@@ -12,7 +12,8 @@ database.
 Such superdatasets are lightweight, as they do not contain actual imaging data,
 and can be queried using a flexible language. In the DICOM context it is often
 desired to limit the amount of metadata to whole datasets and their image
-series. This can be achieved using the following configuration::
+series. This can be achieved using the following configuration, which only needs
+to be put into the top-most dataset, not every DICOM dataset::
 
    % cat .datalad/config
    [datalad "dataset"]
@@ -23,8 +24,11 @@ series. This can be achieved using the following configuration::
 
 With this setup the DataLad `search` command will automatically discover
 metadata for any contained image series, and build a search index that can be
-queried for values in individual DICOM fields. This allows for a variety of
-useful queries. Here are a few examples:
+queried for values in one or more individual DICOM fields. This allows for a
+variety of useful queries.
+
+Example queries
+---------------
 
 Report scans made on any male patients in a given time span::
 
@@ -44,18 +48,26 @@ Report any scans for a particular subject ID::
    action summary:
      search (ok: 6)
 
+For each search hit ALL available metadata is returned. This allows for sophisticated output formating.
+Here is an example that reports all studies a particular subject has participated in::
 
-Example script to bootstrap a DICOM database from scan tarballs
----------------------------------------------------------------
+   % datalad -f '{metadata[dicom][Series][0][StudyDescription]}' search 'xx99*' | uniq
+   [INFO] Query completed in 0.02244874399912078 sec. Reporting up to 20 top matches. 
+   Studies^Michael_Hanke
+   transrep2
+   Transrep2
+
+
+Demo script to bootstrap a DICOM database from scan tarballs
+------------------------------------------------------------
 
 The following script shows how a bunch of DICOM tarballs from two different
 scanners can be imported into a DataLad superdataset for each scanner. Those
 two scanner datasets are than assembled into a joint superdataset for
-acquisition hardware of the LIN. Metadata from any acquisition session can then
+acquisition hardware of the institution. Metadata from any acquisition session can then
 be aggregated into this dataset, to track all acquisitions made on those
 devices, as well as to be able to query for individual scan sessions, DICOM
-series, or individual DICOM images. Such queries only require the presence of
-metadata, and do not depend on the availability of actual raw data.
+series, or individual DICOM images (see above for query examples).
 
 .. code-block:: sh
 
