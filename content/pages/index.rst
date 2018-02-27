@@ -20,6 +20,14 @@ research methods.
 Roadmap
 =======
 
+- Milestone: Develop a general dataset structure for studies [**DONE**]
+
+  - binds together raw data, converted data, analyses , etc.
+
+  - allow for referencing a well-defined software environment for each step of data
+    processing from importing raw data to data conversion to analyses in order to be as
+    reproducible as possible throughout the entire workflow.
+
 - Milestone: Automatic DICOM import and metadata extraction [**DONE**]
 
   - DICOM metadata can be queried across all acquisitions of a study, made by a
@@ -35,6 +43,10 @@ Roadmap
   - Support for a study specification to identify simultaneously acquired data,
     and to associate particular conversion procedures with individual data
     formats.
+
+- Milestone: GUI [**IN PROGRESS**]
+
+  - allow users to fine tune and/or correct automated processes from import of raw data to conversion
 
 - Milestone: Support for BIDS-app compatible analysis implementations
 
@@ -59,4 +71,3 @@ Roadmap
     - automated quality control analysis
 
 - ...
-

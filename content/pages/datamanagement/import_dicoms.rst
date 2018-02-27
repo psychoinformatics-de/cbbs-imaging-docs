@@ -17,7 +17,8 @@ location to the container via the `--bind` option, in case the tarball is on a
 different (network) drive.
 
 A session name like `xx99_0123` will be determined from the DICOM metadata
-(`PatientID`) and a subdirectory with this name is created. The subdirectory
+(`PatientID`) and a subdirectory with this name is created. Alternatively, a session name
+can be provided as a second argument to the `import` command. The subdirectory
 contains a `studyspec.json` file with session-related metadata (info on DICOM
 series to convert to NIfTI, other simultaneously acquired data modalities),
 and a subdirectory `dicoms/`, with all DICOM data and metadata.
