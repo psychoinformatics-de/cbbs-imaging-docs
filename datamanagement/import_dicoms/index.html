@@ -47,14 +47,12 @@
     <form class="searchbox" action="../../search.html">
       <input type="text" name="q" id="tipue_search_input" placeholder="Search">
     </form>
+    <img src="../../theme/img/cbbs_logo.png" alt="CBBS Logo">
+    <img src="../../theme/img/EFRE_logo.png"
+         alt="Signets of Saxony-Anhalt and the European Regional Development Fund">
   </aside>
 
   <main>
-    <div id="funders">
-      <img id="cbbs" src="../../theme/img/cbbs_logo.png" alt="Logo of CBBS">
-      <img id="efre" src="../../theme/img/EFRE_rgb_web.jpg"
-           alt="Signets of Saxony-Anhalt and the European Regional Development Fund">
-    </div>
     <div id='content'>
 <article>
   <header>
@@ -82,7 +80,8 @@ TARBALL is located outside your HOME directory, you may need to provide its
 location to the container via the <cite>--bind</cite> option, in case the tarball is on a
 different (network) drive.</p>
 <p>A session name like <cite>xx99_0123</cite> will be determined from the DICOM metadata
-(<cite>PatientID</cite>) and a subdirectory with this name is created. The subdirectory
+(<cite>PatientID</cite>) and a subdirectory with this name is created. Alternatively, a session name
+can be provided as a second argument to the <cite>import</cite> command. The subdirectory
 contains a <cite>studyspec.json</cite> file with session-related metadata (info on DICOM
 series to convert to NIfTI, other simultaneously acquired data modalities),
 and a subdirectory <cite>dicoms/</cite>, with all DICOM data and metadata.</p>
