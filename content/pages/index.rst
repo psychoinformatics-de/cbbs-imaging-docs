@@ -20,25 +20,6 @@ research methods.
 Roadmap
 =======
 
-- Milestone: Develop a general dataset structure for studies [**DONE**]
-
-  - binds together raw data, converted data, analyses , etc.
-
-  - allow for referencing a well-defined software environment for each step of data
-    processing from importing raw data to data conversion to analyses in order to be as
-    reproducible as possible throughout the entire workflow.
-
-- Milestone: Automatic DICOM import and metadata extraction [**DONE**]
-
-  - DICOM metadata can be queried across all acquisitions of a study, made by a
-    particular scanner, or at a given institution (see `demo
-    <{filename}datamanagement/demo_scandb.rst>`_).
-
-  - Import and extraction are performed in a `common computational environment
-    for raw data handling <{filename}containers/rawimport.rst>`_ that is
-    identical regardless of the particular machine the procedure is performed
-    on.
-
 - Milestone: Conversion to BIDS data structure [**IN PROGRESS**]
 
   - Support for a study specification to identify simultaneously acquired data,
@@ -49,9 +30,10 @@ Roadmap
 
   - allow users to fine tune and/or correct automated processes from import of raw data to conversion
 
-- Milestone: Support for BIDS-app compatible analysis implementations
 
-- Milestone: Analysis pipelines
+- Milestone: Analysis pipelines [**IN PROGRESS**]
+
+  - Support for BIDS-app compatible analysis implementations
 
   - Upcoming event: coding sprint at BrainHack Magdeburg (May 2018)
 
@@ -72,3 +54,29 @@ Roadmap
     - automated quality control analysis
 
 - ...
+
+Accomplished milestones
+=======================
+
+- Developed a dataset structure for studies
+
+  - binds together all produced data: MRI, behavioral log files, other
+    modalities, results
+
+  - referencing a well-defined software environment for each step of data
+    processing from importing raw data to data conversion to analyses in order
+    to enable full computational reproducibility a point immediately after raw
+    data acquisition.
+
+- Automatic DICOM import and metadata extraction
+
+  - DICOM metadata can be queried across all acquisitions of a study, made by a
+    particular scanner, or at a given institution (see `demo
+    <{filename}datamanagement/demo_scandb.rst>`_).
+
+  - Import and extraction are performed in a `common computational environment
+    for raw data handling <{filename}containers/rawimport.rst>`_ that is
+    identical regardless of the particular machine the procedure is performed
+    on.
+
+
