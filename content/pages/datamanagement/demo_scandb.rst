@@ -11,7 +11,7 @@ database.
 
 Such superdatasets are lightweight, as they do not contain actual imaging data,
 and can be queried using a flexible language. In the DICOM context it is often
-desired to limit the amount of metadata to whole datasets and they image
+desired to limit the amount of metadata to whole datasets and their image
 series. This can be achieved using the following configuration::
 
    % cat .datalad/config
@@ -23,7 +23,7 @@ series. This can be achieved using the following configuration::
 
 With this setup the DataLad `search` command will automatically discover
 metadata for any contained image series, and build a search index that can be
-queried for values in individual DICOM fields. This alles for a variety of
+queried for values in individual DICOM fields. This allows for a variety of
 useful queries. Here are a few examples:
 
 Report scans made on any male patients in a given time span::
@@ -54,7 +54,7 @@ two scanner datasets are than assembled into a joint superdataset for
 acquisition hardware of the LIN. Metadata from any acquisition session can then
 be aggregated into this dataset, to track all acquisitions made on those
 devices, as well as to be able to query for individual scan sessions, DICOM
-series, or individual DICOM images. Such query only require the presence of
+series, or individual DICOM images. Such queries only require the presence of
 metadata, and do not depend on the availability of actual raw data.
 
 .. code-block:: sh
