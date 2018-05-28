@@ -20,7 +20,7 @@ research methods.
 Roadmap
 =======
 
-- Milestone: Conversion to BIDS data structure [**IN PROGRESS**]
+- Milestone: Conversion to BIDS data structure [**ALPHA RELASE AVAILABLE**]
 
   - Support for a study specification to identify simultaneously acquired data,
     and to associate particular conversion procedures with individual data
@@ -34,8 +34,6 @@ Roadmap
 - Milestone: Analysis pipelines [**IN PROGRESS**]
 
   - Support for BIDS-app compatible analysis implementations
-
-  - Upcoming event: coding sprint at BrainHack Magdeburg (May 2018)
 
   - Community demands (based on a survey):
 
@@ -57,6 +55,10 @@ Roadmap
 
 Accomplished milestones
 =======================
+
+- Developed open-source DataLad extension for command execution in containerized
+  environments that are tracked alongside other dataset content:
+  https://github.com/datalad/datalad-container
 
 - Developed a dataset structure for studies
 
