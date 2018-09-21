@@ -42,3 +42,6 @@ DICOM subdatasets can be archived separately to, for example, build raw data
 archives (for a lab, a scanner, an institution) that can be easily queried for
 scan with particular properties (see `this demo <{filename}demo_scandb.rst>`_
 for an example).
+
+
+*TODO: Notes on how and what to drop/clean up*
