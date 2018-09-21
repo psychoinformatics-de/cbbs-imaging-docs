@@ -102,6 +102,5 @@ Note, that the fields "converter" and "converter_path" allow to include custom
 converters for your data by specifying where to find the executable
 (`code/convert_physio` within the study raw dataset in this case) and how to
 call it in order to convert this particular data.
-
-
-*TODO:* Explanation of "converter" format string here, on import site or conversion?
+See `how to import additional data <{filename}import_other.rst>`_ for further
+reference on how to determine the values of those two fields.

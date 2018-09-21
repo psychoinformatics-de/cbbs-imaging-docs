@@ -9,7 +9,7 @@ enables the development of data processing components that are agnostic of the
 peculiarities of individual studies, as long as all relevant aspects of a study
 are properly described. The necessary data conversion and layout are performed
 largely automatic. The procedures are tuned for data acquired in Magdeburg,
-but with minor extra effort data form other sources can be processed too.
+but with minor extra effort data from other sources can be processed too.
 
 For each study the following steps will be performed:
 
@@ -18,8 +18,7 @@ For each study the following steps will be performed:
 2. Import a new acquisition (repeated as necessary):
 
    - `Import a DICOM dataset <{filename}datamanagement/import_dicoms.rst>`_
-
-   - Import other data modalities
+   - `Import other data modalities <{filename}datamanagement/import_other.rst>`_
 
 3. Complete study description (if necessary):
 
