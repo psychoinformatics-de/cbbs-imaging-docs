@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Team Brawndo" />
+  <title>CBBS Imaging &ndash; Import additional data</title>
+  <link rel="license" hreflang="en" href="../../copyright.html" />
+
+  <link rel="stylesheet" type="text/css" href="../../theme/css/style.css">
+</head>
+
+<body>
+  <aside>
+    <h1><a href="/">CBBS Imaging</a></h1>
+    <nav>
+      <ul>
+
+              <li>
+                <a href="../../datamanagement/">Data Management</a>
+
+                <ul>
+                  <li>
+                    <a href="../../datamanagement/study_setup/">Initial study setup</a>
+                  </li>
+                  <li>
+                    <a href="../../datamanagement/import_dicoms/">Import DICOMs</a>
+                  </li>
+                  <li>
+                    <a class="active" href="../../datamanagement/import_other/">Import additional data</a>
+                  </li>
+                  <li>
+                    <a href="../../datamanagement/study_specification/">Study specification</a>
+                  </li>
+                  <li>
+                    <a href="../../datamanagement/conversion/">Raw Data Conversion</a>
+                  </li>
+                  <li>
+                    <a href="../../datamanagement/tools/">Tools</a>
+                  </li>
+                  <li>
+                    <a href="../../datamanagement/demo_scandb/">Demo: DICOM DB</a>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="../../analysis/">Data Analysis</a></li>
+              <li><a href="../../devices/">Acquisition Hardware</a></li>
+              <li><a href="../../containers/">Computational Environments</a></li>
+              <li><a href="../../contributing/">Contributing</a></li>
+      </ul>
+    </nav>
+    <form class="searchbox" action="../../search.html">
+      <input type="text" name="q" id="tipue_search_input" placeholder="Search">
+    </form>
+    <img src="../../theme/img/cbbs_logo.png" alt="CBBS Logo">
+    <img src="../../theme/img/EFRE_logo.png"
+         alt="Signets of Saxony-Anhalt and the European Regional Development Fund">
+  </aside>
+
+  <main>
+    <div id='content'>
+<article>
+  <header>
+    <nav>
+      <ul class="breadcrumbs">
+        <li><a href="../../">Home</a></li>
+        <li> > <a href="../../datamanagement/">Data Management</a></li>
+        <li> > Import additional data</li>
+      </ul>
+    </nav>
+    <h1>Import additional data</h1>
+  </header>
+
+  <div>
+    <p>Apart from DICOM files, you can add any additional data into a study dataset.
+Information corresponding to any of the MR data acquisitions must be added into
+the respective directory. This can be stimulation logs, behavioral response logs,
+or other simultaneously acquired data. To simply add the files to the dataset,
+copy or move them to the appropriate location and use <tt class="docutils literal">datalad add</tt> to make
+them part of the dataset.
+<em>TODO: this prob. needs a link to tools/datalad and an explanation therein</em></p>
+<p>However, in order to include the data in the conversion later on, you need to
+create a <a class="reference external" href="{filename}study_specification">specification</a> for it. This is what
+<tt class="docutils literal">datalad <span class="pre">hirni-spec4anything</span></tt> is for. This will create a snippet for the data
+component, containing the mandatory pieces and lets you specify all properties
+of the specification needed for conversion via the same option <cite>--properties</cite>,
+that is available when <a class="reference external" href="../../datamanagement/import_dicoms/">importing DICOM archives</a>.</p>
+<p>Let's say you added a file <tt class="docutils literal">physio/df37_200Hz_1.txt</tt> to an acquisition. To
+create a proper specification snippet for that file, from within the acquisition
+directory you'd call:</p>
+<pre class="literal-block">
+datalad hirni-spec4anything physio/df37_200Hz_1.txt \
+--properties "{\"converter_path\": \"../code/convert_physio",
+               \"converter\": \"{_hs[converter_path]} {_hs[location]} \
+                                {_hs[bids_subject]} {_hs[bids_task]} \
+                                {_hs[bids_run]} ${freq}\", \
+               \"bids_run\": \"01\",
+               \"type\": \"physio_file\"}"
+</pre>
+<p>to create the snippet as shown on the <a class="reference external" href="{filename}study_specification">specification page</a>:</p>
+<pre class="literal-block">
+{"location":"physio/df37_200Hz_1.txt",
+ "type":"physio_file",
+ "dataset_id":"42bc01a0-a6c3-11e8-9a5b-a0389fb56dc0",
+ "dataset_refcommit":"a771150f0e15f309212bc83186d893c65f731d9c",
+ "comment":{"approved":false,"value":""},
+ "subject":{"approved":false,"value":"df37"},
+ "anon_subject":{"approved":false,"value":"002"},
+ "bids_run":{"approved":false,"value":"01"},
+ "bids_session":{"approved":false,"value":null},
+ "bids_task":{"approved":true,"value":"001"},
+ "converter":{"approved":true,"value":"{_hs[converter_path]} {_hs[location]} {_hs[bids_subject]} {_hs[bids_task]} {_hs[bids_run]}"},
+ "converter_path":{"approved":true,"value":"../code/convert_physio"},
+}
+</pre>
+<p>Note, that the keys "subject", "anon_subject", "bids_task" were not specified in
+the call but still created for this snippet. Whenever you use
+<tt class="docutils literal">datalad <span class="pre">hirni-spec4anything</span></tt> to add a snippet to an acquisition's specification,
+the command will conclude the values for keys if the value is unambiguous
+throughout the already existing specification of that acquisition. If there was
+only one run in the existing data there would also be no need to specify it in
+the call to <cite>spec4anything</cite>.</p>
+<p>There are two fields to specify a custom converter for any data component:
+<cite>converter</cite> and <cite>converter_path</cite>. <cite>converter_path</cite> contains the path referring
+to the executable. Note, that this path is relative to the location of the
+specification file (by default right in the acquisition directory) as is the
+path to the data itself (key "location" in the snippet).
+The second field <cite>converter</cite> is a format string specifying how to call that
+executable to convert the file referred to by this snippet. The curly brackets
+indicate something to dynamically be replaced. This follows the same concept
+used by <tt class="docutils literal">datalad run</tt>. As a replacement symbol the dictionary <tt class="docutils literal">_hs</tt> is
+available. This allows to reference any key in this very snippet. So,
+<tt class="docutils literal">{_hs[converter_path]}</tt> is replaced by the path to the executable and
+<tt class="docutils literal">{_hs[bids_run]}</tt> by the value <cite>01</cite>. That way, the string for the <cite>converter</cite>
+field can be figured out once per converter and all snippets using it will cause
+the conversion routine to replace those symbols with the values belonging to the
+currently converted data component.</p>
+
+  </div>
+</article>
+    </div>
+
+    <footer>
+      <p><small>
+          Acknowledgment: funded by the federal state of Saxony-Anhalt and the "European Regional Development Fund" (ERDF 2014-2020), Project: Center for Behavioral Brain Sciences (CBBS), FKZ: ZS/2016/04/78113
+      </small></p>
+      <p><small>
+        content licensed <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">cc-by-sa</a>
+        <span class='break'>—</span> ©2017–2018 Team Brawndo <span class='break'>—</span>
+        unless <a rel="license" href='../../copyright.html'>indicated otherwise</a>
+      </small></p>
+    </footer>
+  </main>
+</body>
+</html>

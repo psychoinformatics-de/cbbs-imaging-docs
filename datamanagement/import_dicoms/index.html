@@ -28,6 +28,12 @@
                     <a class="active" href="../../datamanagement/import_dicoms/">Import DICOMs</a>
                   </li>
                   <li>
+                    <a href="../../datamanagement/import_other/">Import additional data</a>
+                  </li>
+                  <li>
+                    <a href="../../datamanagement/study_specification/">Study specification</a>
+                  </li>
+                  <li>
                     <a href="../../datamanagement/conversion/">Raw Data Conversion</a>
                   </li>
                   <li>
@@ -67,28 +73,44 @@
   </header>
 
   <div>
-    <p>The <a class="reference external" href="../../containers/rawimport/">raw data import</a> container
-also provides a command to import a DICOM tarball for a session into a <a class="reference external" href="../../datamanagement/study_setup/">study
-dataset</a>. To import such a tarball just run:</p>
+    <p><a class="reference external" href="https://github.com/psychoinformatics-de/datalad-hirni">datalad-hirni</a>
+also provides a command to import a DICOM tarball for an acquisition into a
+<a class="reference external" href="../../datamanagement/study_setup/">study dataset</a>. The command to be used for that is:</p>
 <pre class="literal-block">
-singularity run [--bind=/path/to/tarball] INSTALL-DIR/cbbs-imaging.simg import [TARBALL]
+datalad hirni-import-dcm [TARBALL] [ACQUISITION ID]
 </pre>
-<p>from within your study dataset.  This will result in a subdataset with the
-DICOMs in it, that provides the DICOM metadata for easy access via <cite>datalad</cite>.</p>
-<p>Note, that TARBALL needs to be an absolute path at the moment.  Particularly if
-TARBALL is located outside your HOME directory, you may need to provide its
-location to the container via the <cite>--bind</cite> option, in case the tarball is on a
-different (network) drive.</p>
-<p>A session name like <cite>xx99_0123</cite> will be determined from the DICOM metadata
-(<cite>PatientID</cite>) and a subdirectory with this name is created. Alternatively, a session name
-can be provided as a second argument to the <cite>import</cite> command. The subdirectory
-contains a <cite>studyspec.json</cite> file with session-related metadata (info on DICOM
-series to convert to NIfTI, other simultaneously acquired data modalities),
-and a subdirectory <cite>dicoms/</cite>, with all DICOM data and metadata.</p>
+<p>from within your study dataset.  This will result in a subdirectory
+<cite>ACQUISITION ID</cite> in your study dataset and a subdataset <cite>dicoms</cite> beneath with the
+DICOMs in it, that provides the DICOM metadata for easy access via <cite>datalad</cite>. In
+addition a prefilled specification for each series in the tarball is created and
+stored in the acquisition's <a class="reference external" href="../../datamanagement/study_specification/">specification file</a> .</p>
+<p>If you don't provide an acquisition identifier, a name like <cite>xx99_0123</cite> will be
+determined from the DICOM metadata. By default this is the value of field
+<cite>PatientID</cite>. However, there are special rules in place (and to further be
+developed) to be applied based on the scanner the data was acquired with. This
+mechanism allows for different rules per scanner, institution or any other
+category that can be identified by the DICOM metadata.</p>
+<p>Use <tt class="docutils literal"><span class="pre">--subject</span></tt> to provide a subject ID. Otherwise the import routine will try
+to derive the subject ID from the DICOM metadata. A typical case would be the
+aforementioned acquisition <cite>xx99_0123</cite> with a corresponding subject ID <cite>xx99</cite>.
+Optionally, you can use <tt class="docutils literal"><span class="pre">--anon-subject</span></tt> to additionally provide an anonymized
+subject ID. When <a class="reference external" href="../../datamanagement/conversion/">converting</a> the dataset to BIDS,
+the switch <tt class="docutils literal"><span class="pre">--anonymize</span></tt> will then determine which subject ID to use for the
+converted dataset.</p>
+<p>Generally, the option <tt class="docutils literal"><span class="pre">--properties</span></tt> allows to add and/or overwrite the
+<a class="reference external" href="../../datamanagement/study_specification/">specification</a> to be created for this
+acquisition by passing a JSON string. Thereby you can assign a task label for example:</p>
+<pre class="literal-block">
+datalad hirni-import-dcm --subject xx99 --anon-subject 007 \
+--properties '{"bids_task": "dofancystuff", \
+               "comment": "something unusual happened during this acquisition"}' \
+/path/to/tarball
+</pre>
 <p>DICOM subdatasets can be archived separately to, for example, build raw data
 archives (for a lab, a scanner, an institution) that can be easily queried for
 scan with particular properties (see <a class="reference external" href="../../datamanagement/demo_scandb/">this demo</a>
 for an example).</p>
+<p><em>TODO: Notes on how and what to drop/clean up</em></p>
 
   </div>
 </article>
