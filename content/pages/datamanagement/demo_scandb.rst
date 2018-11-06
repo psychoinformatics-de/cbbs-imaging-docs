@@ -1,6 +1,6 @@
 Demo: DICOM DB
 **************
-:order: 491
+:order: 482
 
 DICOM datasets that have been `imported into a study raw dataset
 <{filename}import_dicoms.rst>`_ can (additionally) be collected in scanner (or

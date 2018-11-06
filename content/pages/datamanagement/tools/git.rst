@@ -1,6 +1,6 @@
 Git
 ***
-:order: 492
+:order: 493
 
 Git enables you to track the changes made to files over time — specifically:
 what changed, by whom, when, and why. It also gives you the capability to revert
