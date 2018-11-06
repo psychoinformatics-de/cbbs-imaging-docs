@@ -25,7 +25,7 @@ First off, we need a study raw dataset to bundle all raw data in a structured wa
 
 From within the dataset add our toolbox by calling::
 
-  datalad install -d . -s https://github.com/psychoinformatics-de/cbbs-toolbox.git code/toolbox
+  datalad install --dataset . --source https://github.com/psychoinformatics-de/cbbs-toolbox.git code/toolbox
 
 
 Acquiring data
@@ -64,7 +64,7 @@ This step isn't actually required in case of this example. However, if there was
 a need to change the specification of the study (or a single acquisition), you
 can either edit the JSON files directly or use the WebUI::
 
-  % datalad webapp -d . hirni
+  % datalad webapp --dataset . hirni
 
 Output ends with::
 
@@ -97,10 +97,9 @@ set it up to become a BIDS dataset::
 
 Now, install input data as a subdataset::
 
-  datalad install -d. -s ../study_ds sourcedata
+  datalad install --dataset . --source ../study_ds sourcedata
   datalad install sourcedata/code/toolbox
 
-mkdir -p inputs; ln -s ../sourcedata inputs/rawdata; datalad add inputs/rawdata
 
 If the specification wasn't altered, the actual conversion is done by::
 
