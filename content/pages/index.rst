@@ -20,16 +20,8 @@ research methods.
 Roadmap
 =======
 
-- Milestone: Conversion to BIDS data structure [**ALPHA RELASE AVAILABLE**]
-
-  - Support for a study specification to identify simultaneously acquired data,
-    and to associate particular conversion procedures with individual data
-    formats.
-
-- Milestone: GUI [**IN PROGRESS**]
-
-  - allow users to fine tune and/or correct automated processes from import of raw data to conversion
-
+- Milestone: Conversion to BIDS data structure [**BETA RELASE AVAILABLE**]
+  (https://github.com/psychoinformatics-de/datalad-hirni)
 
 - Milestone: Analysis pipelines [**IN PROGRESS**]
 
@@ -55,6 +47,22 @@ Roadmap
 
 Accomplished milestones
 =======================
+
+- Developed a software package for remote/parallel execution of arbitrary
+  algorithm on batch systems, and/or grid/cloud computing infrastructure.
+  (https://github.com/datalad/datalad-htcondor). This is the technological
+  foundation of data analysis pipeline execution with comprehensive provenance
+  capture support.
+
+- Developed framework for the rapid construction of tailored graphical user interfaces
+  (GUI) for controlling and data entry via a REST-API for browser-based interaction
+  with datasets (https://github.com/datalad/datalad-webapp). Targeted web user interfaces  (WUI) have been implemented for:
+
+  - study metadata entry
+
+  - curation of all digital artifacts of an imaging data acqusitions (medical images,
+    physiological recordings, stimulation and behavioral response logs) into a
+    concise, indexable, and archivable representation of a study
 
 - Developed open-source DataLad extension for command execution in containerized
   environments that are tracked alongside other dataset content:
