@@ -59,16 +59,8 @@ research methods.</p>
 <div class="section" id="roadmap">
 <h2 id="roadmap">Roadmap<a class="headerlink" href="#roadmap" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <ul class="simple">
-<li>Milestone: Conversion to BIDS data structure [<strong>ALPHA RELASE AVAILABLE</strong>]<ul>
-<li>Support for a study specification to identify simultaneously acquired data,
-and to associate particular conversion procedures with individual data
-formats.</li>
-</ul>
-</li>
-<li>Milestone: GUI [<strong>IN PROGRESS</strong>]<ul>
-<li>allow users to fine tune and/or correct automated processes from import of raw data to conversion</li>
-</ul>
-</li>
+<li>Milestone: Conversion to BIDS data structure [<strong>BETA RELASE AVAILABLE</strong>]
+(<a class="reference external" href="https://github.com/psychoinformatics-de/datalad-hirni">https://github.com/psychoinformatics-de/datalad-hirni</a>)</li>
 <li>Milestone: Analysis pipelines [<strong>IN PROGRESS</strong>]<ul>
 <li>Support for BIDS-app compatible analysis implementations</li>
 <li>Community demands (based on a survey):<ul>
@@ -87,8 +79,22 @@ formats.</li>
 </ul>
 </div>
 <div class="section" id="accomplished-milestones">
-<h2 id="accomplished-milestones">Accomplished milestones<a class="headerlink" href="#accomplished-milestones" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<h2 id="accomplished milestones">Accomplished milestones<a class="headerlink" href="#accomplished-milestones" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <ul class="simple">
+<li>Developed a software package for remote/parallel execution of arbitrary
+algorithm on batch systems, and/or grid/cloud computing infrastructure.
+(<a class="reference external" href="https://github.com/datalad/datalad-htcondor">https://github.com/datalad/datalad-htcondor</a>). This is the technological
+foundation of data analysis pipeline execution with comprehensive provenance
+capture support.</li>
+<li>Developed framework for the rapid construction of tailored graphical user interfaces
+(GUI) for controlling and data entry via a REST-API for browser-based interaction
+with datasets (<a class="reference external" href="https://github.com/datalad/datalad-webapp">https://github.com/datalad/datalad-webapp</a>). Targeted web user interfaces  (WUI) have been implemented for:<ul>
+<li>study metadata entry</li>
+<li>curation of all digital artifacts of an imaging data acqusitions (medical images,
+physiological recordings, stimulation and behavioral response logs) into a
+concise, indexable, and archivable representation of a study</li>
+</ul>
+</li>
 <li>Developed open-source DataLad extension for command execution in containerized
 environments that are tracked alongside other dataset content:
 <a class="reference external" href="https://github.com/datalad/datalad-container">https://github.com/datalad/datalad-container</a></li>

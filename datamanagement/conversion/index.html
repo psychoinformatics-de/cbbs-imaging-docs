@@ -35,7 +35,7 @@
                   </li>
                   <li>
                     <a class="active" href="../../datamanagement/conversion/">Raw Data Conversion</a>
-<div id="toc"><ul><li><a class="toc-href" href="#dataset-creation" title="Dataset creation">Dataset creation</a></li><li><a class="toc-href" href="#reference-needed-input" title="Reference needed input">Reference needed input</a></li><li><a class="toc-href" href="#conversion" title="Conversion">Conversion</a></li><li><a class="toc-href" href="#dropping-raw-data" title="Dropping raw data">Dropping raw data</a></li></ul></div>                  </li>
+<div id="toc"><ul><li><a class="toc-href" href="#dataset creation" title="Dataset creation">Dataset creation</a></li><li><a class="toc-href" href="#reference needed input" title="Reference needed input">Reference needed input</a></li><li><a class="toc-href" href="#conversion" title="Conversion">Conversion</a></li><li><a class="toc-href" href="#dropping raw data" title="Dropping raw data">Dropping raw data</a></li></ul></div>                  </li>
                   <li>
                     <a href="../../datamanagement/demo/">Demo Study</a>
                   </li>
@@ -82,7 +82,7 @@ The outcome of such a conversion is again a datalad dataset. It contains a
 reference to the study dataset it was build from, but can be used and shared
 without access to the study dataset.</p>
 <div class="section" id="dataset-creation">
-<h2 id="dataset-creation">Dataset creation<a class="headerlink" href="#dataset-creation" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<h2 id="dataset creation">Dataset creation<a class="headerlink" href="#dataset-creation" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>First, create the to-be BIDS dataset pretty much the same way as you
 <a class="reference external" href="{filename}study_dataset.rst">create a study dataset</a>:</p>
 <pre class="literal-block">
@@ -98,7 +98,7 @@ datalad run-procedure setup_bids_dataset
 </pre>
 </div>
 <div class="section" id="reference-needed-input">
-<h2 id="reference-needed-input">Reference needed input<a class="headerlink" href="#reference-needed-input" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<h2 id="reference needed input">Reference needed input<a class="headerlink" href="#reference-needed-input" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>In order to achieve reproducibility and link the exact environment that was used
 for DICOM conversion run:</p>
 <pre class="literal-block">
@@ -135,7 +135,7 @@ need to convert the entire dataset at once. You can also convert a single
 acquisition instead.</p>
 </div>
 <div class="section" id="dropping-raw-data">
-<h2 id="dropping-raw-data">Dropping raw data<a class="headerlink" href="#dropping-raw-data" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<h2 id="dropping raw data">Dropping raw data<a class="headerlink" href="#dropping-raw-data" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>Finally, you can uninstall the source dataset by running:</p>
 <pre class="literal-block">
 datalad uninstall -d . -r --nocheck sourcedata

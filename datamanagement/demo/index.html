@@ -38,7 +38,7 @@
                   </li>
                   <li>
                     <a class="active" href="../../datamanagement/demo/">Demo Study</a>
-<div id="toc"><ul><li><a class="toc-href" href="#creating-a-raw-dataset" title="Creating a raw dataset">Creating a raw dataset</a></li><li><a class="toc-href" href="#acquiring-data" title="Acquiring data">Acquiring data</a></li><li><a class="toc-href" href="#editing-the-specification" title="Editing the specification">Editing the specification</a></li><li><a class="toc-href" href="#conversion-to-bids" title="Conversion to BIDS">Conversion to BIDS</a></li></ul></div>                  </li>
+<div id="toc"><ul><li><a class="toc-href" href="#creating a raw dataset" title="Creating a raw dataset">Creating a raw dataset</a></li><li><a class="toc-href" href="#acquiring data" title="Acquiring data">Acquiring data</a></li><li><a class="toc-href" href="#editing the specification" title="Editing the specification">Editing the specification</a></li><li><a class="toc-href" href="#conversion to bids" title="Conversion to BIDS">Conversion to BIDS</a></li></ul></div>                  </li>
                   <li>
                     <a href="../../datamanagement/demo_scandb/">Demo: DICOM DB</a>
                   </li>
@@ -78,7 +78,7 @@
   <div>
     <p class="todo"><strong>TODO</strong>: title and introductory description of what this is about*</p>
 <div class="section" id="creating-a-raw-dataset">
-<h2 id="creating-a-raw-dataset">Creating a raw dataset<a class="headerlink" href="#creating-a-raw-dataset" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<h2 id="creating a raw dataset">Creating a raw dataset<a class="headerlink" href="#creating-a-raw-dataset" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>First off, we need a study raw dataset to bundle all raw data in a structured way:</p>
 <pre class="literal-block">
 datalad create my_raw_dataset
@@ -92,7 +92,7 @@ datalad install --dataset . --source https://github.com/psychoinformatics-de/cbb
 </pre>
 </div>
 <div class="section" id="acquiring-data">
-<h2 id="acquiring-data">Acquiring data<a class="headerlink" href="#acquiring-data" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<h2 id="acquiring data">Acquiring data<a class="headerlink" href="#acquiring-data" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>From the scanner, we'd usually get a tarball containing the DICOMs of an acquisition. For this demo we can get such a tarball via:</p>
 <pre class="literal-block">
 wget https://github.com/datalad/example-dicom-functional/archive/half.tar.gz
@@ -109,7 +109,7 @@ datalad hirni-import-dcm /path/to/downloaded/half.tar.gz
 <p class="todo"><strong>TODO</strong>: Import of additional data</p>
 </div>
 <div class="section" id="editing-the-specification">
-<h2 id="editing-the-specification">Editing the specification<a class="headerlink" href="#editing-the-specification" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<h2 id="editing the specification">Editing the specification<a class="headerlink" href="#editing-the-specification" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>This step isn't actually required in case of this example. However, if there was
 a need to change the specification of the study (or a single acquisition), you
 can either edit the JSON files directly or use the WebUI:</p>
@@ -130,7 +130,7 @@ edit study metadata:</p>
 <img alt="" src="/theme/img/webui_edit_study.png"/>
 </div>
 <div class="section" id="conversion-to-bids">
-<h2 id="conversion-to-bids">Conversion to BIDS<a class="headerlink" href="#conversion-to-bids" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<h2 id="conversion to bids">Conversion to BIDS<a class="headerlink" href="#conversion-to-bids" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>In order to get a BIDS dataset from the raw dataset, create a new dataset and
 set it up to become a BIDS dataset:</p>
 <pre class="literal-block">
