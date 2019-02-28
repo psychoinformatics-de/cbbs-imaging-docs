@@ -1,88 +1,115 @@
-Demo Study
-**********
+Demo: Study Dataset
+*******************
 :order: 481
 
 
-.. class:: todo
+Preparation
+-----------
 
-    **TODO**: title and introductory description of what this is about*
+For a simple example of how to create a study dataset with datalad-hirni,
+how it looks like and how to convert it into a BIDS dataset, we need to setup a
+situation to start with. So, lets have a directory to run that demo in::
+
+  mkdir demo
+  cd demo
+
+From the scanner it would be quite common to get a
+tarball containing the DICOM files of your acquisition. We simulate this by
+downloading such from publicly available sources::
+
+  wget -O functional.tar.gz https://github.com/datalad/example-dicom-functional/archive/master.tar.gz
+  wget -O structural.tar.gz https://github.com/datalad/example-dicom-structural/archive/master.tar.gz
+
+
+For reference what this data is about, simply visit https://github.com/datalad/example-dicom-functional/
+and https://github.com/datalad/example-dicom-structural/ in your browser.
+The functional data also comes with an events.tsv file. Since this is usually not included in a DICOM tarball you'd start with, lets extract this file separately and pretend it's not actually in that archive::
+
+  tar -f functional.tar.gz -x example-dicom-functional-master/events.tsv --strip=1
+
+We should now have three files in our directory: functional.tar.gz, structural.tar.gz and events.tsv
+
 
 Creating a raw dataset
 ----------------------
 
-
-
 First off, we need a study raw dataset to bundle all raw data in a structured way::
 
-  datalad create my_raw_dataset
-  cd my_raw_dataset
-  datalad run-procedure setup_study_dataset
+  % datalad rev-create my_raw_dataset
+  % cd my_raw_dataset
+  % datalad run-procedure setup_study_dataset
 
+The first command will create a datalad dataset with nothing special about it. The last, however, runs a hirni procedure, that will do several things to make this a study dataset.
+Apart from setting some configurations like enabling the extraction of DICOM metadata, it will create a default README file, a dataset_description.json template file, an initial study specification file and it will install hirni's toolbox dataset as a subdataset of `my_raw_dataset`.
+It now should like this::
 
-.. class:: todo
+  % tree -L 2
+  .
+  ├── code
+  │   └── hirni-toolbox
+  ├── dataset_description.json
+  ├── README
+  └── studyspec.json
 
-    **TODO**: Already start editing study metadata here?
+And from a datalad perspective like this::
 
-From within the dataset add our toolbox by calling::
+  % datalad ls -r
+  .                    [annex]  master  ✗ 2019-02-28/12:37:01  ✓
+  code/hirni-toolbox   [annex]  master  ✗ 2019-02-27/21:23:59  ✓
 
-  datalad install --dataset . --source https://github.com/psychoinformatics-de/cbbs-toolbox.git code/toolbox
+We now have an initial study dataset and should start by editing the study metadata, which is stored in `dataset_description.json`. For convenience when doing this manually we can use hirni's web UI::
+
+  % datalad webapp --dataset . hirni
+
+The output following this command should end reading `Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)`.
+Now this address can be opened in a browser and should look like this:
+
+.. image:: /theme/img/webui_index.png
+
+Choose "Edit study metadata" (we have no acquisition yet) to get to this form:
+
+.. image:: /theme/img/webui_edit_study.png
+
+It's not required to fill this at this point (technically it's not required to be filled at any point), but generally recommended to record whatever information you have ASAP into that dataset. Its recorded history is just as useful as you allow it to be.
 
 
 Acquiring data
 --------------
 
-From the scanner, we'd usually get a tarball containing the DICOMs of an acquisition. For this demo we can get such a tarball via::
+Now, we want the actual data. To import a DICOM tarball into the study dataset, there is a dedicated hirni command `hirni-import-dcm`.
+This will add the DICOMS to our dataset, extract metadata from their headers and derive a specification for each series it finds in those DICOM files.
+A hirni study dataset is supposed to put all data of each acquisition into a dedicated subdirectory, which also contains a specification file for that acquisition.
+We can give the command a name for such an acquisition or let it try to derive one from what it finds in the DICOM headers. Everything that is automatically concluded from the metadata can be overwritten by options to that command, of course.
+Something that can't automatically be derived, of course, are anonymized subject identifiers. This association will be needed for anonymized conversion. You can add those IDs later, of course, but we can do it right from the start::
 
-  wget https://github.com/datalad/example-dicom-functional/archive/half.tar.gz
+  % datalad hirni-import-dcm --anon-subject 001 ../structural.tar.gz acq1
 
+This should create a new acquisition directory `acq1`, containing a `studyspec.json` and a subdataset `dicoms`.
+Note, that this subdataset contains the original tarball itself (in a hidden way) and the extracted DICOMS. As long as we don't need to operate on the DICOM files, we don't really them to be there. We can throw their content away by calling::
 
-*TODO: acquisition ID, since DICOM contains subject ID only, which would become the acquisition ID as well*
-Now, as soon as we have an acquisition's data, we import it into the raw dataset
-to make sure, we get its metadata as well as the correct starting point for the
-data versioning.
-From within the ``my_raw_dataset`` directory we run::
+  % datalad drop acq1/dicoms/*
 
-  datalad hirni-import-dcm /path/to/downloaded/half.tar.gz
+This should result in the DICOM files being broken symlinks. We can get them again any time via `datalad get acq1/dicoms/*`.
+Import the second acquisition the same way::
 
+  % datalad hirni-import-dcm --anon-subject 001 ../functional.tar.gz acq2
 
-.. class:: todo
+This time we have something else to import for that acquisition: the events file. Generally, you can add arbitrary files to the dataset. Protocols, logfiles, physiological data, code - it is meant to bundle all raw data of study.
+For the events file, we just copy it to the acquisition it belongs to and save the new state of our dataset, attaching a message stating what we did::
 
-    **TODO**: Note on ReproIn Convention (https://github.com/repronim/reproin#overall-workflow)
+  % cp ../events.tsv acq2/
+  % datalad rev-save -m "Added events.tsv for acquisition 2"
 
+Now, for a later conversion there is no general conversion rule for tsv files. We need to tell the system what it is supposed to do with that file (if anything) on conversion. For that, we add a specification for that file using `hirni-spec4anything`.
+This command allows to add (or replace) a specification for arbitrary things. By default it will generate a specification that already "inherits" everything, that is unambiguously uniform in the existing specifications of that acquisition.
+That means, if our automatically created specification for the functional DICOMs managed to derive all required BIDS terms (in this case it's about "subject", "task" and "run") and their values for the dicomseries, `spec4anything` will use that as well for the new specification (except we overrule this).
+So, all we need to do here, is to specify a conversion routine. For correct BIDS conversion we only need to copy that file to its correct location. Such a "copy-converter" is provided by the toolbox we have installed at the beginning.
+Editing or adding such a specification is again possible via the webUI. For the purpose of this demo, however, we will this time use the command line to show how that looks like::
 
-.. class:: todo
+  % datalad hirni-spec4anything acq2/events.tsv --properties "{\"procedures\": {\"procedure-name\": \"copy-converter\", \"procedure-call\": \"bash {script} {{location}} {dspath}/sub-{{bids-subject}}/func/sub-{{bids-subject}}_task-{{bids-task}}_run-{{bids-run}}_events.tsv\"}, \"type\": \"events_file\"}"
 
-  **TODO**: Import of additional data
-
-
-
-
-Editing the specification
--------------------------
-
-This step isn't actually required in case of this example. However, if there was
-a need to change the specification of the study (or a single acquisition), you
-can either edit the JSON files directly or use the WebUI::
-
-  % datalad webapp --dataset . hirni
-
-Output ends with::
-
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
-
-Now this address can be opened in a browser and should look like this:
-
-.. image:: /theme/img/webui_index.png
-
-Click on "Edit acquisition metadata" and select acquisition "02" to get to the
-editing mask for this acquisition:
-
-.. image:: /theme/img/webui_edit_acq.png
-
-You can also edit more general information about the study, if you choose to
-edit study metadata:
-
-.. image:: /theme/img/webui_edit_study.png
+What we pass here into the `properties` option is a JSON string. This is the underlying structure of what you can see in the webUI. The necessary quoting/escaping at the command line is admittedly not always easy for manual editing.
+Note, that instead of such a string you can also pass a path to JSON file. (and more generally: All of datalad and the datalad-hirni extension is accessible via a Python API as well)
 
 
 Conversion to BIDS
@@ -91,24 +118,16 @@ Conversion to BIDS
 In order to get a BIDS dataset from the raw dataset, create a new dataset and
 set it up to become a BIDS dataset::
 
-  datalad create bids
-  cd bids
-  datalad run-procedure setup_bids_dataset
+  % datalad create bids
+  % cd bids
+  % datalad run-procedure setup_bids_dataset
 
 Now, install input data as a subdataset::
 
-  datalad install --dataset . --source ../study_ds sourcedata
-  datalad install sourcedata/code/toolbox
+  % datalad install --dataset . --source ../my_raw_dataset sourcedata --recursive
 
+The actual conversion is based on the specification files in the study dataset. You can convert a single one of them (meaning: Everything such a file specifies) or an arbitrary number, including everything at once, of course::
 
-If the specification wasn't altered, the actual conversion is done by::
+  % datalad hirni-spec2bids --anonymize sourcedata/**/studyspec.json
 
-  datalad hirni-spec2bids sourcedata/02/studyspec.json
-
-Note, that this command takes a list of specification files (each expected to be
-an acquisition specification) and converts the respective acquisitions. If you
-want to convert a dataset with multiple acquisitions at once, just use::
-
-  datalad hirni-spec2bids sourcedata/*/studyspec.json
-
-
+The `anonymize` switch will cause the command to use the anonymized subject identifiers and encode all records of where exactly the data came from into hidden sidecar files, that can tha be excluded from publishing/sharing this dataset.
