@@ -131,3 +131,6 @@ The actual conversion is based on the specification files in the study dataset. 
   % datalad hirni-spec2bids --anonymize sourcedata/**/studyspec.json
 
 The `anonymize` switch will cause the command to use the anonymized subject identifiers and encode all records of where exactly the data came from into hidden sidecar files, that can tha be excluded from publishing/sharing this dataset.
+
+If you use the BIDS-Validator (https://bids-standard.github.io/bids-validator/) to check the resulting dataset, there should be an error message, though. This is because our events.tsv file references stimuli files, we don't actually have available to add to the dataset.
+For the purpose of this demo, this should be fine.
