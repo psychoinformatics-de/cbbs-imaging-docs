@@ -106,7 +106,7 @@ That means, if our automatically created specification for the functional DICOMs
 So, all we need to do here, is to specify a conversion routine. For correct BIDS conversion we only need to copy that file to its correct location. Such a "copy-converter" is provided by the toolbox we have installed at the beginning.
 Editing or adding such a specification is again possible via the webUI. For the purpose of this demo, however, we will this time use the command line to show how that looks like::
 
-  % datalad hirni-spec4anything acq2/events.tsv --properties "{\"procedures\": {\"procedure-name\": \"copy-converter\", \"procedure-call\": \"bash {script} {{location}} {dspath}/sub-{{bids-subject}}/func/sub-{{bids-subject}}_task-{{bids-task}}_run-{{bids-run}}_events.tsv\"}, \"type\": \"events_file\"}"
+  % datalad hirni-spec4anything acq2/events.tsv --properties "{\"procedures\": {\"procedure-name\": \"copy-converter\", \"procedure-call\": \"bash {script} {{location}} {ds}/sub-{{bids-subject}}/func/sub-{{bids-subject}}_task-{{bids-task}}_run-{{bids-run}}_events.tsv\"}, \"type\": \"events_file\"}"
 
 What we pass here into the `properties` option is a JSON string. This is the underlying structure of what you can see in the webUI. The necessary quoting/escaping at the command line is admittedly not always easy for manual editing.
 Note, that instead of such a string you can also pass a path to JSON file. (and more generally: All of datalad and the datalad-hirni extension is accessible via a Python API as well)
