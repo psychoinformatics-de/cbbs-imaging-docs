@@ -141,9 +141,11 @@ This installs our study dataset as a subdataset in our BIDS dataset at its subdi
 While this may create some data duplication, please note several things: First, the new subdataset doesn't need to hold all of the actual content of the study dataset's files (although it can retrieve it). Rather it's about referencing the input data (including the code and environments in hirni's toolbox) at their exact version to achieve full reproducibility. We can thereby track the converted data back to the raw data and the exact conversion routine that brought it into existence.
 Second, this subdataset can later be removed by `datalad uninstall`, freeing the space on the filesystem while keeping the reference.
 
-The actual conversion is based on the specification files in the study dataset. You can convert a single one of them (meaning: Everything such a file specifies) or an arbitrary number, including everything at once, of course::
+The actual conversion is based on the specification files in the study dataset. You can convert a single one of them (meaning: Everything such a file specifies) or an arbitrary number, including everything at once, of course.
+Lets first convert the study level specification and second all the acquisitions by the following two calls::
 
-  % datalad hirni-spec2bids --anonymize sourcedata/**/studyspec.json
+  % datalad hirni-spec2bids --anonymize sourcedata/studyspec.json
+  % datalad hirni-spec2bids --anonymize sourcedata/*/studyspec.json
 
 The `anonymize` switch will cause the command to use the anonymized subject identifiers and encode all records of where exactly the data came from into hidden sidecar files, that can tha be excluded from publishing/sharing this dataset.
 
