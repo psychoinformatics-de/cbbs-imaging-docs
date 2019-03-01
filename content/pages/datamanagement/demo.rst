@@ -10,22 +10,22 @@ For a simple example of how to create a study dataset with datalad-hirni,
 how it looks like and how to convert it into a BIDS dataset, we need to setup a
 situation to start with. So, lets have a directory to run that demo in::
 
-  mkdir demo
-  cd demo
+  % mkdir demo
+  % cd demo
 
 From the scanner it would be quite common to get a
 tarball containing the DICOM files of your acquisition. We simulate this by
 downloading such from publicly available sources::
 
-  wget -O functional.tar.gz https://github.com/datalad/example-dicom-functional/archive/master.tar.gz
-  wget -O structural.tar.gz https://github.com/datalad/example-dicom-structural/archive/master.tar.gz
+  % wget -O functional.tar.gz https://github.com/datalad/example-dicom-functional/archive/master.tar.gz
+  % wget -O structural.tar.gz https://github.com/datalad/example-dicom-structural/archive/master.tar.gz
 
 
 For reference what this data is about, simply visit https://github.com/datalad/example-dicom-functional/
 and https://github.com/datalad/example-dicom-structural/ in your browser.
 The functional data also comes with an events.tsv file. Since this is usually not included in a DICOM tarball you'd start with, lets extract this file separately and pretend it's not actually in that archive::
 
-  tar -f functional.tar.gz -x example-dicom-functional-master/events.tsv --strip=1
+  % tar -f functional.tar.gz -x example-dicom-functional-master/events.tsv --strip=1
 
 We should now have three files in our directory: functional.tar.gz, structural.tar.gz and events.tsv
 
@@ -37,7 +37,7 @@ First off, we need a study raw dataset to bundle all raw data in a structured wa
 
   % datalad rev-create my_raw_dataset
   % cd my_raw_dataset
-  % datalad run-procedure setup_study_dataset
+  % datalad run-procedure setup_hirni_dataset
 
 The first command will create a datalad dataset with nothing special about it. The last, however, runs a hirni procedure, that will do several things to make this a study dataset.
 Apart from setting some configurations like enabling the extraction of DICOM metadata, it will create a default README file, a dataset_description.json template file, an initial study specification file and it will install hirni's toolbox dataset as a subdataset of `my_raw_dataset`.
@@ -89,16 +89,17 @@ Note, that this subdataset contains the original tarball itself (in a hidden way
 
   % datalad drop acq1/dicoms/*
 
-This should result in the DICOM files being broken symlinks. We can get them again any time via `datalad get acq1/dicoms/*`.
+This should result in the DICOM files having no content. We can get them again any time via `datalad get acq1/dicoms/*`.
 Import the second acquisition the same way::
 
   % datalad hirni-import-dcm --anon-subject 001 ../functional.tar.gz acq2
 
+Note, that this imports and extracts metadata from about 6000 DICOM files. It will take a few minutes.
 This time we have something else to import for that acquisition: the events file. Generally, you can add arbitrary files to the dataset. Protocols, logfiles, physiological data, code - it is meant to bundle all raw data of study.
 For the events file, we just copy it to the acquisition it belongs to and save the new state of our dataset, attaching a message stating what we did::
 
   % cp ../events.tsv acq2/
-  % datalad rev-save -m "Added events.tsv for acquisition 2"
+  % datalad rev-save -m "Added stimulation protocol for acquisition 2"
 
 Now, for a later conversion there is no general conversion rule for tsv files. We need to tell the system what it is supposed to do with that file (if anything) on conversion. For that, we add a specification for that file using `hirni-spec4anything`.
 This command allows to add (or replace) a specification for arbitrary things. By default it will generate a specification that already "inherits" everything, that is unambiguously uniform in the existing specifications of that acquisition.
@@ -106,11 +107,12 @@ That means, if our automatically created specification for the functional DICOMs
 So, all we need to do here, is to specify a conversion routine. For correct BIDS conversion we only need to copy that file to its correct location. Such a "copy-converter" is provided by the toolbox we have installed at the beginning.
 Editing or adding such a specification is again possible via the webUI. For the purpose of this demo, however, we will this time use the command line to show how that looks like::
 
-  % datalad hirni-spec4anything acq2/events.tsv --properties "{\"procedures\": {\"procedure-name\": \"copy-converter\", \"procedure-call\": \"bash {script} {{location}} {ds}/sub-{{bids-subject}}/func/sub-{{bids-subject}}_task-{{bids-task}}_run-{{bids-run}}_events.tsv\"}, \"type\": \"events_file\"}"
+  % datalad hirni-spec4anything acq2/events.tsv --properties '{"procedures": {"procedure-name": "copy-converter", "procedure-call": "bash {script} {{location}} {ds}/sub-{{bids-subject}}/func/sub-{{bids-subject}}_task-{{bids-task}}_run-{{bids-run}}_events.tsv"}, "type": "events_file"}'
 
 What we pass here into the `properties` option is a JSON string. This is the underlying structure of what you can see in the webUI. The necessary quoting/escaping at the command line is admittedly not always easy for manual editing.
 Note, that instead of such a string you can also pass a path to JSON file. (and more generally: All of datalad and the datalad-hirni extension is accessible via a Python API as well)
 
+.. todo:: Update `page about specification <{filename}study_specification.rst>`_ and reference here for more details on that JSON
 
 Conversion to BIDS
 ------------------
