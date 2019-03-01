@@ -101,6 +101,7 @@ For the events file, we just copy it to the acquisition it belongs to and save t
   % cp ../events.tsv acq2/
   % datalad rev-save -m "Added stimulation protocol for acquisition 2"
 
+Please note, that the choice where exactly to put such a file within an acquisition directory is entirely up to you. datalad-hirni doesn't expect any particular structure within an acquisition. As long as the specification files are correctly referencing the locations of the data, everything is fine.
 Now, for a later conversion there is no general conversion rule for tsv files. We need to tell the system what it is supposed to do with that file (if anything) on conversion. For that, we add a specification for that file using `hirni-spec4anything`.
 This command allows to add (or replace) a specification for arbitrary things. By default it will generate a specification that already "inherits" everything, that is unambiguously uniform in the existing specifications of that acquisition.
 That means, if our automatically created specification for the functional DICOMs managed to derive all required BIDS terms (in this case it's about "subject", "task" and "run") and their values for the dicomseries, `spec4anything` will use that as well for the new specification (except we overrule this).
@@ -114,19 +115,29 @@ Note, that instead of such a string you can also pass a path to JSON file. (and 
 
 .. todo:: Update `page about specification <{filename}study_specification.rst>`_ and reference here for more details on that JSON
 
+
+We now bound all information on that study and its acquisitions in its native, absolutely unmodified form together in a dataset that can now serve as a starting point for any kind of processing.
+This dataset is much less likely to suffer from software bugs than a ready-to-analyze dataset with NIfTIs etc, but the software stack that actually touched the data files is minimal.
+
+
 Conversion to BIDS
 ------------------
 
-In order to get a BIDS dataset from the raw dataset, create a new dataset and
+In order to get a BIDS dataset from the raw dataset, we create a new dataset in our demo directory and
 set it up to become a BIDS dataset::
 
+  % cd ..
   % datalad create bids
   % cd bids
   % datalad run-procedure setup_bids_dataset
 
-Now, install input data as a subdataset::
+Note, that this is NOT to be done within `my_raw_dataset`. Instead we created an entirely new dataset, which we'll *link* to the study dataset by installing the latter into the former::
 
   % datalad install --dataset . --source ../my_raw_dataset sourcedata --recursive
+
+This installs our study dataset as a subdataset in our BIDS dataset at its subdirectory `sourcedata`. By that, we reference the exact state of our study dataset at the moment of installation.
+While this may create some data duplication, please note several things: First, the new subdataset doesn't need to hold all of the actual content of the study dataset's files (although it can retrieve it). Rather it's about referencing the input data (including the code and environments in hirni's toolbox) at their exact version to achieve full reproducibility. We can thereby track the converted data back to the raw data and the exact conversion routine that brought it into existence.
+Second, this subdataset can later be removed by `datalad uninstall`, freeing the space on the filesystem while keeping the reference.
 
 The actual conversion is based on the specification files in the study dataset. You can convert a single one of them (meaning: Everything such a file specifies) or an arbitrary number, including everything at once, of course::
 
@@ -134,5 +145,8 @@ The actual conversion is based on the specification files in the study dataset. 
 
 The `anonymize` switch will cause the command to use the anonymized subject identifiers and encode all records of where exactly the data came from into hidden sidecar files, that can tha be excluded from publishing/sharing this dataset.
 
+`datalad hirni-spec2bids` will run datalad procedures on the raw data as specified in the specification files (remember for example that we set a procedure "copy-converter" for our events.tsv file). Those procedures are customizable. The defaults we are using here, come from hirni's toolbox dataset. The default procedure to convert the DICOM files uses a containerized converter. It will NOT use, what you happen to have locally, but this defined and in the datasets referenced environment to do the conversion.
+This requires a download of that container (happens automatically) and enables the reproducibility of this routine, since the exact environment the conversion was ran in will be recorded in the dataset's history.
 If you use the BIDS-Validator (https://bids-standard.github.io/bids-validator/) to check the resulting dataset, there should be an error message, though. This is because our events.tsv file references stimuli files, we don't actually have available to add to the dataset.
+
 For the purpose of this demo, this should be fine.
