@@ -142,10 +142,9 @@ While this may create some data duplication, please note several things: First, 
 Second, this subdataset can later be removed by `datalad uninstall`, freeing the space on the filesystem while keeping the reference.
 
 The actual conversion is based on the specification files in the study dataset. You can convert a single one of them (meaning: Everything such a file specifies) or an arbitrary number, including everything at once, of course.
-Lets first convert the study level specification and second all the acquisitions by the following two calls::
+Lets first convert the study level specification and second all the acquisitions by the following call::
 
-  % datalad hirni-spec2bids --anonymize sourcedata/studyspec.json
-  % datalad hirni-spec2bids --anonymize sourcedata/*/studyspec.json
+  % datalad hirni-spec2bids --anonymize sourcedata/studyspec.json sourcedata/*/studyspec.json
 
 The `anonymize` switch will cause the command to use the anonymized subject identifiers and encode all records of where exactly the data came from into hidden sidecar files, that can tha be excluded from publishing/sharing this dataset.
 
