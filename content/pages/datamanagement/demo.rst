@@ -113,8 +113,10 @@ Editing or adding such a specification is again possible via the webUI. For the 
 What we pass here into the `properties` option is a JSON string. This is the underlying structure of what you can see in the webUI. The necessary quoting/escaping at the command line is admittedly not always easy for manual editing.
 Note, that instead of such a string you can also pass a path to JSON file. (and more generally: All of datalad and the datalad-hirni extension is accessible via a Python API as well)
 
-.. todo:: Update `page about specification <{filename}study_specification.rst>`_ and reference here for more details on that JSON
 
+.. class:: todo
+
+    **TODO**: Update `page about specification <{filename}study_specification.rst>`_ and reference here for more details on that JSON
 
 We now bound all information on that study and its acquisitions in its native, absolutely unmodified form together in a dataset that can now serve as a starting point for any kind of processing.
 This dataset is much less likely to suffer from software bugs than a ready-to-analyze dataset with NIfTIs etc, but the software stack that actually touched the data files is minimal.
