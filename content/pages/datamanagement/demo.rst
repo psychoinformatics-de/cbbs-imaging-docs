@@ -3,32 +3,13 @@ Demo: Study Dataset
 :order: 481
 
 
-Preparation
------------
-
-For a simple example of how to create a study dataset with datalad-hirni,
-how it looks like and how to convert it into a BIDS dataset, we need to setup a
-situation to start with. So, lets have a directory to run that demo in::
+This is a simple example showing how to create a study dataset with datalad-hirni
+and how to import data into such a dataset. The raw data we use for this demo is publicly available from two example repositories at github.
+For reference what this data is about, simply visit https://github.com/datalad/example-dicom-functional/
+and https://github.com/datalad/example-dicom-structural/ in your browser. For all commands to work in the exact form shown here, create a directory for that demo first and switch into it::
 
   % mkdir demo
   % cd demo
-
-From the scanner it would be quite common to get a
-tarball containing the DICOM files of your acquisition. We simulate this by
-downloading such from publicly available sources::
-
-  % wget -O functional.tar.gz https://github.com/datalad/example-dicom-functional/archive/master.tar.gz
-  % wget -O structural.tar.gz https://github.com/datalad/example-dicom-structural/archive/master.tar.gz
-
-
-For reference what this data is about, simply visit https://github.com/datalad/example-dicom-functional/
-and https://github.com/datalad/example-dicom-structural/ in your browser.
-The functional data also comes with an events.tsv file. Since this is usually not included in a DICOM tarball you'd start with, lets extract this file separately and pretend it's not actually in that archive::
-
-  % tar -f functional.tar.gz -x example-dicom-functional-master/events.tsv --strip=1
-
-We should now have three files in our directory: functional.tar.gz, structural.tar.gz and events.tsv
-
 
 Creating a raw dataset
 ----------------------
@@ -80,9 +61,10 @@ Now, we want the actual data. To import a DICOM tarball into the study dataset, 
 This will add the DICOMS to our dataset, extract metadata from their headers and derive a specification for each series it finds in those DICOM files.
 A hirni study dataset is supposed to put all data of each acquisition into a dedicated subdirectory, which also contains a specification file for that acquisition.
 We can give the command a name for such an acquisition or let it try to derive one from what it finds in the DICOM headers. Everything that is automatically concluded from the metadata can be overwritten by options to that command, of course.
-Something that can't automatically be derived, of course, are anonymized subject identifiers. This association will be needed for anonymized conversion. You can add those IDs later, of course, but we can do it right from the start::
+Something that can't automatically be derived, of course, are anonymized subject identifiers. This association will be needed for anonymized conversion. You can add those IDs later, of course, but we can do it right from the start via the option `--anon-subject`.
+`datalad hirni-import-dcm` can import such tarballs either from a local path or an URL. For this demo we use the above mentioned example data available from github::
 
-  % datalad hirni-import-dcm --anon-subject 001 ../structural.tar.gz acq1
+  % datalad hirni-import-dcm --anon-subject 001 https://github.com/datalad/example-dicom-structural/archive/master.tar.gz acq1
 
 This should create a new acquisition directory `acq1`, containing a `studyspec.json` and a subdataset `dicoms`.
 Note, that this subdataset contains the original tarball itself (in a hidden way) and the extracted DICOMS. As long as we don't need to operate on the DICOM files, we don't really them to be there. We can throw their content away by calling::
@@ -92,14 +74,20 @@ Note, that this subdataset contains the original tarball itself (in a hidden way
 This should result in the DICOM files having no content. We can get them again any time via `datalad get acq1/dicoms/*`.
 Import the second acquisition the same way::
 
-  % datalad hirni-import-dcm --anon-subject 001 ../functional.tar.gz acq2
+  % datalad hirni-import-dcm --anon-subject 001 https://github.com/datalad/example-dicom-functional/archive/master.tar.gz acq2
 
 Note, that this imports and extracts metadata from about 6000 DICOM files. It will take a few minutes.
 This time we have something else to import for that acquisition: the events file. Generally, you can add arbitrary files to the dataset. Protocols, logfiles, physiological data, code - it is meant to bundle all raw data of study.
-For the events file, we just copy it to the acquisition it belongs to and save the new state of our dataset, attaching a message stating what we did::
+The functional data already provides an events.tsv file and therefore we can find it already in the `dicoms` subdataset we just created. Since such a file is usually not included in a DICOM tarball you'd start with, lets pretend it's not actually in that archive and import it separately again.
+We use `git annex addurl` to retrieve that file and then save the new state of our dataset by calling `datalad rev-save`::
 
-  % cp ../events.tsv acq2/
-  % datalad rev-save -m "Added stimulation protocol for acquisition 2"
+  % git annex addurl https://github.com/datalad/example-dicom-functional/raw/master/events.tsv --file acq2/events.tsv
+  % datalad rev-save --message "Added stimulation protocol for acquisition 2"
+
+
+.. class:: note
+
+  **NOTE:** The calls to `git annex addurl` and `datalad rev-save` currently replace a single call to `datalad download-url` due to a bug in that command.
 
 Please note, that the choice where exactly to put such a file within an acquisition directory is entirely up to you. datalad-hirni doesn't expect any particular structure within an acquisition. As long as the specification files are correctly referencing the locations of the data, everything is fine.
 Now, for a later conversion there is no general conversion rule for tsv files. We need to tell the system what it is supposed to do with that file (if anything) on conversion. For that, we add a specification for that file using `hirni-spec4anything`.
