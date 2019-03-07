@@ -79,9 +79,8 @@ Here we are going to adopt the YODA principles: a set of simple rules on how to 
 
 Before we can fire up FSL for our GLM analysis, we need two pieces of custom code:
 
- - a small script that can convert BIDS events.tsv files into the EV3 format that FSL can understand, available at https://raw.githubusercontent.com/myyoda/ohbm2018-training/master/section23/scripts/events2ev3.sh
-
- - an FSL analysis configuration template script available at https://raw.githubusercontent.com/myyoda/ohbm2018-training/master/section23/scripts/ffa_design.fsf
+- a small script that can convert BIDS events.tsv files into the EV3 format that FSL can understand, available at https://raw.githubusercontent.com/myyoda/ohbm2018-training/master/section23/scripts/events2ev3.sh
+- an FSL analysis configuration template script available at https://raw.githubusercontent.com/myyoda/ohbm2018-training/master/section23/scripts/ffa_design.fsf
 
 Any custom code needs to be tracked if we want to achieve a complete record of how an analysis was conducted. Hence we will store those scripts in our analysis dataset.
 We use the `datalad download-url` command to download the scripts and include them in the analysis dataset::
@@ -129,7 +128,7 @@ The following command takes around 5 minutes to complete on an average system::
   --input sub-001/onsets \
   --input inputs/rawdata/sub-001/func/sub-001_task-oneback_run-01_bold.nii.gz \
   --output sub-001/1stlvl_glm.feat \
-  feat {inputs[0]}
+  fsl5.0-feat '{inputs[0]}'
 
 Once this command finishes, DataLad will have captured the entire FSL output, and the dataset will contain a complete record all the way from the input BIDS dataset to the GLM results (which, by the way, performed an FFA localization on a real BOLD imaging dataset, take a look!). The BIDS subdataset in turn has a complete record of all processing down from the raw DICOMs onwards.
 
@@ -140,9 +139,9 @@ Get Ready for the Afterlife
 Once a study is complete and published it is important to archive data and results, for example, to be able to respond to inquiries from readers of an associated publication. The modularity of the study units makes this straightforward and avoid needless duplication. We now that the raw data for this GLM analysis is tracked in its own dataset (localizer_scans) that only needs to be archived once, regardless of how many analyses use it as input. This means that we can “throw away” this subdataset copy within this analysis dataset. DataLad can re-obtain the correct version at any point in the future, as long as the recorded location remains accessible.
 We can use the `datalad diff` command and `git log` to verify that the subdataset is in the same state as when it was initially added. Then use datalad uninstall to delete it::
 
-  % datalad diff -- inputs
-  % git log -- inputs
-  % datalad uninstall --dataset . inputs --recursive
+  % datalad diff -- inputs/rawdata
+  % git log -- inputs/rawdata
+  % datalad uninstall --dataset . inputs/rawdata --recursive
 
 Before we archive these analysis results, we can go one step further and verify their computational reproducibility. DataLad provides a rerun command that is capable of “replaying” any recorded command. The following command we re-execute the FSL analysis (the command that was recorded since we tagged the dataset as “ready4analysis”). It will record the recomputed results in a separate Git branch named “verify” of the dataset. We can then automatically compare these new results to the original ones in the “master” branch. We will see that all outputs can be reproduced in bit-identical form. The only changes are observed in log files that contain volatile information, such as time steps::
 
@@ -156,19 +155,9 @@ Before we archive these analysis results, we can go one step further and verify 
   % git checkout master
   % git branch -D verify
 
+So, hopefully we've shown that:
 
-.. class:: todo
-
-    **TODO**: summarize. Original:
-    Key Points
-
-        we can implement a complete imaging study using DataLad datasets to represent units of data processing
-
-        each unit comprehensively captures all inputs and data processing leading up to it
-
-        this comprehensive capture facilitates re-use of units, and enables computational reproducibility
-
-        carefully validated intermediate results (captured as a DataLad dataset) are a candidate for publication with minimal additional effort
-
-        the outcome of this demo is available as a demo DataLad dataset from GitHub
-
+- we can implement a complete imaging study using DataLad datasets to represent units of data processing
+- each unit comprehensively captures all inputs and data processing leading up to it
+- this comprehensive capture facilitates re-use of units, and enables computational reproducibility
+- carefully validated intermediate results (captured as a DataLad dataset) are a candidate for publication with minimal additional effort
