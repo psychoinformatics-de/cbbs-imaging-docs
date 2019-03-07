@@ -106,39 +106,12 @@ Note, that instead of such a string you can also pass a path to JSON file. (and 
 
     **TODO**: Update `page about specification <{filename}study_specification.rst>`_ and reference here for more details on that JSON
 
-We now bound all information on that study and its acquisitions in its native, absolutely unmodified form together in a dataset that can now serve as a starting point for any kind of processing.
-This dataset is much less likely to suffer from software bugs than a ready-to-analyze dataset with NIfTIs etc, but the software stack that actually touched the data files is minimal.
-
-
-Conversion to BIDS
-------------------
-
-In order to get a BIDS dataset from the raw dataset, we create a new dataset in our demo directory and
-set it up to become a BIDS dataset::
+If you ran all the commands in this demo the exact same way as posted, your dataset should now look exactly like this: https://github.com/psychoinformatics-de/hirni-demo
+For comparison you can examine it on github or install it locally to have a closer look via::
 
   % cd ..
-  % datalad create bids
-  % cd bids
-  % datalad run-procedure setup_bids_dataset
+  % datalad install -s https://github.com/psychoinformatics-de/hirni-demo --recursive
 
-Note, that this is NOT to be done within `my_raw_dataset`. Instead we created an entirely new dataset, which we'll *link* to the study dataset by installing the latter into the former::
 
-  % datalad install --dataset . --source ../my_raw_dataset sourcedata --recursive
-
-This installs our study dataset as a subdataset in our BIDS dataset at its subdirectory `sourcedata`. By that, we reference the exact state of our study dataset at the moment of installation.
-While this may create some data duplication, please note several things: First, the new subdataset doesn't need to hold all of the actual content of the study dataset's files (although it can retrieve it). Rather it's about referencing the input data (including the code and environments in hirni's toolbox) at their exact version to achieve full reproducibility. We can thereby track the converted data back to the raw data and the exact conversion routine that brought it into existence.
-Second, this subdataset can later be removed by `datalad uninstall`, freeing the space on the filesystem while keeping the reference.
-
-The actual conversion is based on the specification files in the study dataset. You can convert a single one of them (meaning: Everything such a file specifies) or an arbitrary number, including everything at once, of course.
-Lets first convert the study level specification and second all the acquisitions by the following call::
-
-  % datalad hirni-spec2bids --anonymize sourcedata/studyspec.json sourcedata/*/studyspec.json
-
-The `anonymize` switch will cause the command to use the anonymized subject identifiers and encode all records of where exactly the data came from into hidden sidecar files, that can tha be excluded from publishing/sharing this dataset.
-
-`datalad hirni-spec2bids` will run datalad procedures on the raw data as specified in the specification files (remember for example that we set a procedure "copy-converter" for our events.tsv file). Those procedures are customizable. The defaults we are using here, come from hirni's toolbox dataset. The default procedure to convert the DICOM files uses a containerized converter. It will NOT use, what you happen to have locally, but this defined and in the datasets referenced environment to do the conversion.
-This requires a download of that container (happens automatically) and enables the reproducibility of this routine, since the exact environment the conversion was ran in will be recorded in the dataset's history.
-If you use the BIDS-Validator (https://bids-standard.github.io/bids-validator/) to check the resulting dataset, there should be an error message, though. This is because our events.tsv file references stimuli files, we don't actually have available to add to the dataset.
-For the purpose of this demo, this should be fine.
-
-Other than that, we have a valid BIDS dataset now, that can be used with BIDS-Apps or any kind of software that is able to deal with this standard. Since we have the raw data in a subdataset, we can aggregate DICOM metadata from it into the BIDS dataset, which would be available even when the study dataset was uninstalled from the BIDS dataset. If we keep using `datalad-run` / `datalad containers-run` for any processing to follow (as hirni internally does), we are able to trace back the genesis and evolution of each file to the raw data, the exact code and the environments it ran in to alter this file or bring it into its existence.
+We now bound all information on that study and its acquisitions in its native, absolutely unmodified form together in a dataset that can now serve as a starting point for any kind of processing.
+This dataset is much less likely to suffer from software bugs than a ready-to-analyze dataset with NIfTIs etc, but the software stack that actually touched the data files is minimal.
