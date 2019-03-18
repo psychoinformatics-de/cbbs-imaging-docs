@@ -83,10 +83,3 @@ Accomplished milestones
   - DICOM metadata can be queried across all acquisitions of a study, made by a
     particular scanner, or at a given institution (see `demo
     <{filename}datamanagement/demo_scandb.rst>`_).
-
-  - Import and extraction are performed in a `common computational environment
-    for raw data handling <{filename}containers/rawimport.rst>`_ that is
-    identical regardless of the particular machine the procedure is performed
-    on.
-
-

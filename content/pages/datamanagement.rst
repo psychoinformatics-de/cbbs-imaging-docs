@@ -20,7 +20,7 @@ For each study the following steps will be performed:
    - `Import a DICOM dataset <{filename}datamanagement/import_dicoms.rst>`_
    - `Import other data modalities <{filename}datamanagement/import_other.rst>`_
 
-3. Complete study description (if necessary):
+3. Complete `study description <{filename}datamanagement/study_specification.rst>`_ (if necessary):
 
    - Identify data that were acquired simultaneously during an acquisition
 
@@ -28,8 +28,14 @@ For each study the following steps will be performed:
 
    - Identify data formats/converters for non-standard acquisitions (e.g. custom hardware)
 
-4. Convert raw data into the common data structure
+   - possibly use datalad-hirni's `webUI <{filename}datamanagement/tools/webui.rst>`_ to edit the specification accordingly
+
+4. `Convert raw data <{filename}datamanagement/conversion.rst>`_ into the common data structure
 
    - Verify result of automatic conversion (automatic validation tools are available)
 
 5. Apply analysis procedure
+
+
+For a quick start you may want to have a look at the demos on how to `setup a study dataset <{filename}datamanagement/demo_study.rst>`_,
+`convert <{filename}datamanagement/demo_conversion.rst>`_ it and run an `analysis <{filename}datamanagement/demo_analysis.rst>`_.

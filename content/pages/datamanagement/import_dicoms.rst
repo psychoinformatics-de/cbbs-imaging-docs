@@ -3,7 +3,7 @@ Import DICOMs
 :order: 420
 
 `datalad-hirni <https://github.com/psychoinformatics-de/datalad-hirni>`_
-also provides a command to import a DICOM tarball for an acquisition into a
+provides a command to import a DICOM tarball for an acquisition into a
 `study dataset <{filename}study_setup.rst>`_. The command to be used for that is::
 
   datalad hirni-import-dcm [TARBALL] [ACQUISITION ID]
@@ -31,7 +31,9 @@ converted dataset.
 
 Generally, the option ``--properties`` allows to add and/or overwrite the
 `specification <{filename}study_specification.rst>`_ to be created for this
-acquisition by passing a JSON string. Thereby you can assign a task label for example::
+acquisition by passing either a JSON string or a path to a JSON file.
+Thereby you can assign a task label for example, if it can not be derived from the DICOM metadata by the rules inplace::
+
 
   datalad hirni-import-dcm --subject xx99 --anon-subject 007 \
   --properties '{"bids_task": "dofancystuff", \

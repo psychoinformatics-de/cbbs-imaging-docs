@@ -71,32 +71,29 @@ series, or individual DICOM images (see above for query examples).
 
 .. code-block:: sh
 
-   # get the tools
-   datalad install -s https://github.com/psychoinformatics-de/cbbs-imaging-container-import import
-   datalad get import/cbbs-imaging.simg
-
    # create a super dataset that will have all acquisitions the 7T ever made
-   singularity run import/cbbs-imaging.simg create 7t
+   datalad rev-create 7t
    cd 7t
+   datalad run-procedure setup_hirni_dataset
    # import a bunch of DICOM tarballs (simulates daily routine)
-   singularity run ../import/cbbs-imaging.simg import \
+   datalad hirni-import-dcm \
     /home/data/psyinf/forrest_gump/pandora/data/xx99/raw/dicom/xx99_2022.20130410.103515.930000.tar.gz
-   singularity run ../import/cbbs-imaging.simg import \
+   datalad hirni-import-dcm \
     /home/data/psyinf/forrest_gump/7T_ad/data/xx99/raw/dicom/xx99_2014.20130408.123933.087500.tar.gz
-   singularity run ../import/cbbs-imaging.simg import \
+   datalad hirni-import-dcm \
     /home/data/psyinf/forrest_gump/7T_ad/data/xx99/raw/dicom/xx99_2015.20130408.140515.147500.tar.gz
 
    # done for now
    cd ..
    # now the same for 3t
-   singularity run import/cbbs-imaging.simg create 3t
+   datalad rev-create 3t
    cd 3t
    # import a bunch of DICOM tarballs
-   singularity run ../import/cbbs-imaging.simg import \
+   datalad hirni-import-dcm \
     /home/data/psyinf/forrest_gump/3T_av_et/mri/xx99_0138.20140425.121603.06.tar.gz
-   singularity run ../import/cbbs-imaging.simg import \
+   datalad hirni-import-dcm \
     /home/data/psyinf/forrest_gump/3T_av_et/mri/xx99_0139.20140425.142752.07.tar.gz
-   singularity run ../import/cbbs-imaging.simg import \
+   datalad hirni-import-dcm \
     /home/data/psyinf/forrest_gump/3T_visloc/mri/xx99_0140.20140425.155736.23.tar.gz
 
    # done
@@ -105,7 +102,7 @@ series, or individual DICOM images (see above for query examples).
    # one dataset for the entire institute's scan (could in turn be part of one that also
    # includes other modalities/machines)
    # this first part only needs to be done once
-   datalad create lin
+   datalad rev-create lin
    cd lin
    datalad install -d . -s ../7t
    datalad install -d . -s ../3t
