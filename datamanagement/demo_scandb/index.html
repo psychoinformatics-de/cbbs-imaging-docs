@@ -143,32 +143,29 @@ acquisition hardware of the institution. Metadata from any acquisition session c
 be aggregated into this dataset, to track all acquisitions made on those
 devices, as well as to be able to query for individual scan sessions, DICOM
 series, or individual DICOM images (see above for query examples).</p>
-<div class="highlight"><pre><span></span><span class="c1"># get the tools</span>
-datalad install -s https://github.com/psychoinformatics-de/cbbs-imaging-container-import import
-datalad get import/cbbs-imaging.simg
-
-<span class="c1"># create a super dataset that will have all acquisitions the 7T ever made</span>
-singularity run import/cbbs-imaging.simg create 7t
+<div class="highlight"><pre><span></span><span class="c1"># create a super dataset that will have all acquisitions the 7T ever made</span>
+datalad rev-create 7t
 <span class="nb">cd</span> 7t
+datalad run-procedure setup_hirni_dataset
 <span class="c1"># import a bunch of DICOM tarballs (simulates daily routine)</span>
-singularity run ../import/cbbs-imaging.simg import <span class="se">\</span>
+datalad hirni-import-dcm <span class="se">\</span>
  /home/data/psyinf/forrest_gump/pandora/data/xx99/raw/dicom/xx99_2022.20130410.103515.930000.tar.gz
-singularity run ../import/cbbs-imaging.simg import <span class="se">\</span>
+datalad hirni-import-dcm <span class="se">\</span>
  /home/data/psyinf/forrest_gump/7T_ad/data/xx99/raw/dicom/xx99_2014.20130408.123933.087500.tar.gz
-singularity run ../import/cbbs-imaging.simg import <span class="se">\</span>
+datalad hirni-import-dcm <span class="se">\</span>
  /home/data/psyinf/forrest_gump/7T_ad/data/xx99/raw/dicom/xx99_2015.20130408.140515.147500.tar.gz
 
 <span class="c1"># done for now</span>
 <span class="nb">cd</span> ..
 <span class="c1"># now the same for 3t</span>
-singularity run import/cbbs-imaging.simg create 3t
+datalad rev-create 3t
 <span class="nb">cd</span> 3t
 <span class="c1"># import a bunch of DICOM tarballs</span>
-singularity run ../import/cbbs-imaging.simg import <span class="se">\</span>
+datalad hirni-import-dcm <span class="se">\</span>
  /home/data/psyinf/forrest_gump/3T_av_et/mri/xx99_0138.20140425.121603.06.tar.gz
-singularity run ../import/cbbs-imaging.simg import <span class="se">\</span>
+datalad hirni-import-dcm <span class="se">\</span>
  /home/data/psyinf/forrest_gump/3T_av_et/mri/xx99_0139.20140425.142752.07.tar.gz
-singularity run ../import/cbbs-imaging.simg import <span class="se">\</span>
+datalad hirni-import-dcm <span class="se">\</span>
  /home/data/psyinf/forrest_gump/3T_visloc/mri/xx99_0140.20140425.155736.23.tar.gz
 
 <span class="c1"># done</span>
@@ -177,7 +174,7 @@ singularity run ../import/cbbs-imaging.simg import <span class="se">\</span>
 <span class="c1"># one dataset for the entire institute's scan (could in turn be part of one that also</span>
 <span class="c1"># includes other modalities/machines)</span>
 <span class="c1"># this first part only needs to be done once</span>
-datalad create lin
+datalad rev-create lin
 <span class="nb">cd</span> lin
 datalad install -d . -s ../7t
 datalad install -d . -s ../3t

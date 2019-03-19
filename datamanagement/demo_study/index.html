@@ -167,8 +167,8 @@ Editing or adding such a specification is again possible via the webUI. For the 
 % datalad hirni-spec4anything acq2/events.tsv --properties '{"procedures": {"procedure-name": "copy-converter", "procedure-call": "bash {script} {{location}} {ds}/sub-{{bids-subject}}/func/sub-{{bids-subject}}_task-{{bids-task}}_run-{{bids-run}}_events.tsv"}, "type": "events_file"}'
 </pre>
 <p>What we pass here into the <cite>properties</cite> option is a JSON string. This is the underlying structure of what you can see in the webUI. The necessary quoting/escaping at the command line is admittedly not always easy for manual editing.
-Note, that instead of such a string you can also pass a path to JSON file. (and more generally: All of datalad and the datalad-hirni extension is accessible via a Python API as well)</p>
-<p class="todo"><strong>TODO</strong>: Update <a class="reference external" href="../../datamanagement/study_specification/">page about specification</a> and reference here for more details on that JSON</p>
+Note, that instead of such a string you can also pass a path to JSON file. (and more generally: All of datalad and the datalad-hirni extension is accessible via a Python API as well)
+For a more extensive description of the specification (and therefore those <cite>properties</cite>) see the <a class="reference external" href="../../datamanagement/study_specification/">specification page</a>.</p>
 <p>If you ran all the commands in this demo the exact same way as posted, your dataset should now look exactly like this: <a class="reference external" href="https://github.com/psychoinformatics-de/hirni-demo">https://github.com/psychoinformatics-de/hirni-demo</a>
 For comparison you can examine it on github or install it locally to have a closer look via:</p>
 <pre class="literal-block">

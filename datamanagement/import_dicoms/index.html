@@ -83,7 +83,7 @@
 
   <div>
     <p><a class="reference external" href="https://github.com/psychoinformatics-de/datalad-hirni">datalad-hirni</a>
-also provides a command to import a DICOM tarball for an acquisition into a
+provides a command to import a DICOM tarball for an acquisition into a
 <a class="reference external" href="../../datamanagement/study_setup/">study dataset</a>. The command to be used for that is:</p>
 <pre class="literal-block">
 datalad hirni-import-dcm [TARBALL] [ACQUISITION ID]
@@ -108,7 +108,8 @@ the switch <tt class="docutils literal"><span class="pre">--anonymize</span></tt
 converted dataset.</p>
 <p>Generally, the option <tt class="docutils literal"><span class="pre">--properties</span></tt> allows to add and/or overwrite the
 <a class="reference external" href="../../datamanagement/study_specification/">specification</a> to be created for this
-acquisition by passing a JSON string. Thereby you can assign a task label for example:</p>
+acquisition by passing either a JSON string or a path to a JSON file.
+Thereby you can assign a task label for example, if it can not be derived from the DICOM metadata by the rules inplace:</p>
 <pre class="literal-block">
 datalad hirni-import-dcm --subject xx99 --anon-subject 007 \
 --properties '{"bids_task": "dofancystuff", \

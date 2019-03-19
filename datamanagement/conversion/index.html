@@ -90,9 +90,9 @@ without access to the study dataset.</p>
 <div class="section" id="dataset-creation">
 <h2 id="dataset creation">Dataset creation<a class="headerlink" href="#dataset-creation" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>First, create the to-be BIDS dataset pretty much the same way as you
-<a class="reference external" href="{filename}study_dataset.rst">create a study dataset</a>:</p>
+<a class="reference external" href="../../datamanagement/study_setup/">create a study dataset</a>:</p>
 <pre class="literal-block">
-datalad create [TARGET-DIR]
+datalad rev-create [TARGET-DIR]
 </pre>
 <p>If you don't provide a target dir, the dataset will be created in the current
 working directory. This will create an empty datalad dataset.</p>
@@ -105,40 +105,31 @@ datalad run-procedure setup_bids_dataset
 </div>
 <div class="section" id="reference-needed-input">
 <h2 id="reference needed input">Reference needed input<a class="headerlink" href="#reference-needed-input" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
-<p>In order to achieve reproducibility and link the exact environment that was used
-for DICOM conversion run:</p>
-<pre class="literal-block">
-datalad containers-add conversion \
-  -u shub://mih/ohbm2018-training:heudiconv \
-  --call-fmt 'singularity exec --bind {{pwd}} {img} {cmd}'
-</pre>
-<p>Please note, that the recommended environment to be used will change soon, since
-we will provide a toolbox dataset suited for this platform and its usage in
-Magdeburg.</p>
 <p>Now the study dataset to be converted is needed. Install it as a subdataset
 <cite>sourcedata</cite> into the BIDS dataset:</p>
 <pre class="literal-block">
 datalad install -d . -s [PATH TO STUDY DATASET] sourcedata
 </pre>
+<p>Note, that we are assuming you created your study dataset according to the <a class="reference external" href="../../datamanagement/study_setup/">setup page</a> or the accompanying <a class="reference external" href="../../datamanagement/demo_study/">demo</a>.
+That is, it has the <a class="reference external" href="../../datamanagement/tools/toolbox/">toolbox</a> installed as a subdataset.</p>
 </div>
 <div class="section" id="conversion">
 <h2 id="conversion">Conversion<a class="headerlink" href="#conversion" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>Assuming that the study dataset comes with a proper study specification, you can
 now convert it by calling:</p>
 <pre class="literal-block">
-datalad hirni-spec2bids --anonymize sourcedata/*/studyspec.json
+datalad hirni-spec2bids --anonymize sourcedata/studyspec.json sourcedata/*/studyspec.json
 </pre>
 <p>Several things are to be noted here. First, there is a switch <tt class="docutils literal"><span class="pre">--anonymize</span></tt>.
 This is optional and ensures that within the resulting BIDS dataset subjects are
 referred to only by their <cite>anon_subject</cite> ID according to the specification.
 There shouldn't be any hint on the original subject ID in the commit messages or
-paths in the new dataset. What is <em>doesn't</em> do, however, is defacing the images.
-This is an additional step to be taken, that requires the images to already be
-converted.</p>
+paths in the new dataset. By default this should also run a defacing routine, that should be specified in an acquisition's specification file within a snippet of type <cite>dicomseries:all</cite>.
+You can change this by editing this specification.</p>
 <p>Furthermore, you may notice that the call as shown above references not the
 study dataset to be converted but the specification files. This means, you don't
 need to convert the entire dataset at once. You can also convert a single
-acquisition instead.</p>
+acquisition instead. In fact, you can even have several specification files per acquisition and run a conversion based on a single file. Further limitation is available via the option <tt class="docutils literal"><span class="pre">--only-type</span></tt>, which allows to convert only snippets of that particular type.</p>
 </div>
 <div class="section" id="dropping-raw-data">
 <h2 id="dropping raw data">Dropping raw data<a class="headerlink" href="#dropping-raw-data" title="Permalink to this headline"><i class="icon-link"></i></a></h2>

@@ -115,7 +115,7 @@ Start off by <a class="reference external" href="https://github.com/psychoinform
 <h2 id="dataset creation">Dataset creation<a class="headerlink" href="#dataset-creation" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>To create a study dataset you just need to run:</p>
 <pre class="literal-block">
-datalad create [TARGET-DIR]
+datalad rev-create [TARGET-DIR]
 </pre>
 <p>If you don't provide a target dir, the dataset will be created in the current
 working directory. This will create an empty datalad dataset.</p>
@@ -123,8 +123,12 @@ working directory. This will create an empty datalad dataset.</p>
 setup procedure from within the dataset:</p>
 <pre class="literal-block">
 cd [TARGET-DIR]
-datalad run-procedure setup_study_dataset
+datalad run-procedure setup_hirni_dataset
 </pre>
+<p>You can now use hirni's <a class="reference external" href="../../datamanagement/tools/webui/">webUI</a> to edit the study metadata and thereby fill the <tt class="docutils literal">dataset_description.json</tt> file.
+This step can be postponed or repeated later on to complete it. There's no technical need to fill it out completely (or at all) at this point. It is recommended to do it as far as you can though.</p>
+<p>The dataset is now ready for <a class="reference external" href="../../datamanagement/import_dicoms/">importing</a> acquisition data.</p>
+<p>For more details and an example of such a setup, see the respective <a class="reference external" href="../../datamanagement/demo_study/">demo</a>.</p>
 </div>
 
   </div>

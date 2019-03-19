@@ -82,7 +82,7 @@
   </header>
 
   <div>
-    <p>The study specification consists of JSON files in the study raw dataset and
+    <p>The study specification consists of JSON files in the <a class="reference external" href="../../datamanagement/study_setup/">study raw dataset</a> and
 provides metadata needed for conversion. The tools provided by datalad-hirni aim
 to help to (automatically) create and curate those files and convert a study raw
 dataset (or single acquisition) based on them.
@@ -93,10 +93,10 @@ dictionaries as <cite>snippets</cite>. For any data entity in an acquisition (at
 that is to be converted) there should be such a snippet. Those snippets are
 automatically created when you <a class="reference external" href="../../datamanagement/import_dicoms/">import a DICOM tarball</a>
 or <a class="reference external" href="../../datamanagement/import_other/">import other data</a> into your study raw dataset.
-However, the automatic creation will likely be incomplete or even incorrect,
-depending on your needs. Therefore those specifications needs to be edited
+However, the automatic creation may be incomplete or even incorrect,
+depending on your needs. Therefore those specifications need to be edited
 before converting the dataset. Since those files are simple JSON files, you can
-change them programmatically, edit the manually with any kind of editor you like
+change them programmatically, edit them manually with any kind of editor you like
 or use datalad-hirni's webUI to do so.</p>
 <p>The specification snippets have keys, that are meant to be edited and some
 special keys, that are not supposed to be changed, but only to automatically be
@@ -118,18 +118,22 @@ or changed. This is meant to help curation.</p>
  "bids_run":{"approved":false,"value":"01"},
  "bids_session":{"approved":false,"value":null},
  "bids_task":{"approved":true,"value":"001"},
- "converter":{"approved":false,"value":"heudiconv"},
  "description":{"approved":true,"value":"MoCoSeries_DiCo"},
  "id":{"approved":false,"value":9},
+ "procedures":[{"procedure-name": {"approved": false, "value": ""},
+                "procedure-call": {"approved": false, "value": ""},
+                "on-anonymize": {"approved": false, "value": false}
+                }]
+ "tags":[]
 }
 </pre>
 <p>Note, that the first five entries are aforementioned non-editable fields. They
-are created by the import routine for DICOMs and supposed to be changed.
+are created by the import routine for DICOMs and supposed to not be changed.
 "location", "type", "dataset_id", "dataset_refcommit" are expected in every
 snippet independent on the type of data this specification is about.</p>
 <p>"location" is a path to the actual data relative to the specification file
 containing this very snippet. It might refer to a single file or a directory.</p>
-<p>"comment" is field with no implications in how this snippet or the data it is
+<p>"comment" is a field with no implications in how this snippet or the data it is
 about is dealt with. It is meant to provide a place to put notes regarding the
 data or TODOs or whatever you might need in order to finish creating the study
 raw dataset and preparing conversion.</p>
@@ -139,22 +143,34 @@ can have a value of <cite>null</cite> or not appear in the specification at all.
 example the values were automatically derived from DICOM metadata (note, that
 they are not yet "approved"), most importantly from the DICOM field <cite>ProtocolName</cite>.
 For conversion of DICOMS currently supported BIDS keys are:</p>
-<blockquote>
-'bids_session'
-'bids_task'
-'bids_run'
-'bids_modality'
-'bids_acquisition'
-'bids_scan'
-'bids_contrast_enhancement'
-'bids_reconstruction_algorithm'
-'bids_echo'
-'bids_direction'</blockquote>
+<ul class="simple">
+<li>'bids_session'</li>
+<li>'bids_task'</li>
+<li>'bids_run'</li>
+<li>'bids_modality'</li>
+<li>'bids_acquisition'</li>
+<li>'bids_scan'</li>
+<li>'bids_contrast_enhancement'</li>
+<li>'bids_reconstruction_algorithm'</li>
+<li>'bids_echo'</li>
+<li>'bids_direction'</li>
+</ul>
+<p>For details on their meaning please refer to the <a class="reference external" href="http://bids.neuroimaging.io/">BIDS standard</a>.</p>
 <p>The value of "description" comes from DICOM's <cite>SeriesDescription</cite> and "id" is
 prefilled with the value of <cite>SeriesNumber</cite>. It's worth noting, that this "id"
 has no technical meaning for datalad-hirni's commands. It is meant to provide
 you with a human-readable identification of this DICOM series to ease editing of
 the snippet.</p>
+<p>"procedures" defines a list of <a class="reference external" href="http://docs.datalad.org/en/latest/generated/man/datalad-run-procedure.html">datalad-procedures</a> to be executed during conversion.
+Besides its name such a procedure definition provides the option to overwrite the way it is called ("procedure-call") by passing an alternative format string and a flag to signal whether or not it is to be called only if the conversion with <tt class="docutils literal">datalad <span class="pre">hirni-spec2bids</span></tt> is called with the option <tt class="docutils literal"><span class="pre">--anonymize</span></tt>,
+which can be used to apply a defacing routine for example.
+An example for such a format string can be found within the <a class="reference external" href="../../datamanagement/demo_study/">study dataset demo</a>. Such a format string is first and foremost meant to provide arguments to the call for a procedure and the mechanism as provided by datalad itself (see <a class="reference external" href="http://docs.datalad.org/en/latest/generated/man/datalad-run-procedure.html">datalad-procedures</a> for reference) is enhanced by datalad-hirni.
+This enhancements makes other fields of the specification snippet available via additional placeholders. Enclose any key of the snippet in double curly brackets and it will be replaced by the value of that key when the procedure is called.
+Procedures are available through hirni's toolbox dataset, but can also be provided by yourself. Any datalad-procedure is valid for this specification.
+With respect to the example snippet above, note that there is no conversion procedure defined for the dicomseries. This is because of the default routine hirni uses. This is a containerized version of <a class="reference external" href="https://github.com/nipy/heudiconv">heudiconv</a> provided by the toolbox.
+The respective procedure is called <cite>hirni-dicom-converter</cite> and is only called once per acquisition. This will convert all the dicomseries within that acquisition. Hence any procedure you add to a particular dicomseries will be called after the conversion and usually there shouldn't be a need to do so.
+You can however <em>exclude</em> a dicomseries from conversion by adding the tag <cite>hirni-dicom-converter-ignore</cite> to its specification snippet.
+The conversion routine for the dicomseries is specified in an additional snippet (created automatically during <a class="reference external" href="../../datamanagement/import_dicoms/">import</a>) of type <cite>dicomseries:all</cite>.</p>
 <p>Similarly, a snippet for a physio file may look like this:</p>
 <pre class="literal-block">
 {"location":"physio/df37_200Hz_1.txt",
@@ -166,17 +182,12 @@ the snippet.</p>
  "anon_subject":{"approved":false,"value":"002"},
  "bids_run":{"approved":false,"value":"01"},
  "bids_session":{"approved":false,"value":null},
- "bids_task":{"approved":true,"value":"001"},
- "converter":{"approved":true,"value":"{_hs[converter_path]} {_hs[location]} {_hs[bids_subject]} {_hs[bids_task]} {_hs[bids_run]}"},
- "converter_path":{"approved":true,"value":"../code/convert_physio"},
+ "bids_task":{"approved":true,"value":"oneback"},
+ "sampling-frequency": {"approved": true, "value": "200Hz"},
+ "procedures":[{"procedure-name":{"approved":true,"value":"hirni-physiobox-converter"}}],
 }
 </pre>
-<p>Note, that the fields "converter" and "converter_path" allow to include custom
-converters for your data by specifying where to find the executable
-(<cite>code/convert_physio</cite> within the study raw dataset in this case) and how to
-call it in order to convert this particular data.
-See <a class="reference external" href="../../datamanagement/import_other/">how to import additional data</a> for further
-reference on how to determine the values of those two fields.</p>
+<p>Something like this is typically created when <a class="reference external" href="../../datamanagement/import_other/">importing</a> other data than DICOM files by calling <tt class="docutils literal">datalad <span class="pre">hirni-spec4anything</span></tt>.</p>
 
   </div>
 </article>
