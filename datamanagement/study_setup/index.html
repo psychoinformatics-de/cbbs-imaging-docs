@@ -125,6 +125,9 @@ setup procedure from within the dataset:</p>
 cd [TARGET-DIR]
 datalad run-procedure setup_hirni_dataset
 </pre>
+<p>This command will do several things to make this a study dataset.
+Apart from setting some configurations like enabling the extraction of DICOM metadata, it will create a default README file, a dataset_description.json template file, an initial study specification file and it will install hirni's <a class="reference external" href="../../datamanagement/tools/toolbox/">toolbox dataset</a> as a subdataset of <cite>my_raw_dataset</cite>.
+Note, that by default the toolbox is installed from github. If you need to install from elsewhere, you can set the <cite>datalad.hirni.toolbox.url</cite> config to point to another URL prior to running <tt class="docutils literal">setup_hirni_dataset</tt>.</p>
 <p>You can now use hirni's <a class="reference external" href="../../datamanagement/tools/webui/">webUI</a> to edit the study metadata and thereby fill the <tt class="docutils literal">dataset_description.json</tt> file.
 This step can be postponed or repeated later on to complete it. There's no technical need to fill it out completely (or at all) at this point. It is recommended to do it as far as you can though.</p>
 <p>The dataset is now ready for <a class="reference external" href="../../datamanagement/import_dicoms/">importing</a> acquisition data.</p>

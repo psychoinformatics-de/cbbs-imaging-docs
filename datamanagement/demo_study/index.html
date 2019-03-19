@@ -99,7 +99,8 @@ and <a class="reference external" href="https://github.com/datalad/example-dicom
 % datalad run-procedure setup_hirni_dataset
 </pre>
 <p>The first command will create a datalad dataset with nothing special about it. The last, however, runs a hirni procedure, that will do several things to make this a study dataset.
-Apart from setting some configurations like enabling the extraction of DICOM metadata, it will create a default README file, a dataset_description.json template file, an initial study specification file and it will install hirni's toolbox dataset as a subdataset of <cite>my_raw_dataset</cite>.
+Apart from setting some configurations like enabling the extraction of DICOM metadata, it will create a default README file, a dataset_description.json template file, an initial study specification file and it will install hirni's <a class="reference external" href="../../datamanagement/tools/toolbox/">toolbox dataset</a> as a subdataset of <cite>my_raw_dataset</cite>.
+Note, that by default the toolbox is installed from github. If you need to install from elsewhere, you can set the <cite>datalad.hirni.toolbox.url</cite> config to point to another URL prior to running <tt class="docutils literal">setup_hirni_dataset</tt>.
 It now should like this:</p>
 <pre class="literal-block">
 % tree -L 2
