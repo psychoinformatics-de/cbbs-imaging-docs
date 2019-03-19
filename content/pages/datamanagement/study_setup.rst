@@ -41,7 +41,7 @@ Dataset creation
 ----------------
 To create a study dataset you just need to run::
 
-  datalad create [TARGET-DIR]
+  datalad rev-create [TARGET-DIR]
 
 If you don't provide a target dir, the dataset will be created in the current
 working directory. This will create an empty datalad dataset.
@@ -50,4 +50,11 @@ To preconfigure it to be a *study dataset* however, you need to run a dedicated
 setup procedure from within the dataset::
 
   cd [TARGET-DIR]
-  datalad run-procedure setup_study_dataset
+  datalad run-procedure setup_hirni_dataset
+
+You can now use hirni's `webUI <{filename}tools/webui.rst>`_ to edit the study metadata and thereby fill the ``dataset_description.json`` file.
+This step can be postponed or repeated later on to complete it. There's no technical need to fill it out completely (or at all) at this point. It is recommended to do it as far as you can though.
+
+The dataset is now ready for `importing <{filename}import_dicoms.rst>`_ acquisition data.
+
+For more details and an example of such a setup, see the respective `demo <{filename}demo_study.rst>`_.

@@ -12,9 +12,9 @@ without access to the study dataset.
 Dataset creation
 ----------------
 First, create the to-be BIDS dataset pretty much the same way as you
-`create a study dataset <{filename}study_dataset.rst>`_::
+`create a study dataset <{filename}study_setup.rst>`_::
 
-  datalad create [TARGET-DIR]
+  datalad rev-create [TARGET-DIR]
 
 If you don't provide a target dir, the dataset will be created in the current
 working directory. This will create an empty datalad dataset.
@@ -27,41 +27,32 @@ setup procedure from within the dataset::
 
 Reference needed input
 ----------------------
-In order to achieve reproducibility and link the exact environment that was used
-for DICOM conversion run::
-
-  datalad containers-add conversion \
-    -u shub://mih/ohbm2018-training:heudiconv \
-    --call-fmt 'singularity exec --bind {{pwd}} {img} {cmd}'
-
-Please note, that the recommended environment to be used will change soon, since
-we will provide a toolbox dataset suited for this platform and its usage in
-Magdeburg.
-
 Now the study dataset to be converted is needed. Install it as a subdataset
 `sourcedata` into the BIDS dataset::
 
   datalad install -d . -s [PATH TO STUDY DATASET] sourcedata
+
+Note, that we are assuming you created your study dataset according to the `setup page <{filename}study_setup.rst>`_ or the accompanying `demo <{filename}demo_study.rst>`_.
+That is, it has the `toolbox <{filename}tools/toolbox.rst>`_ installed as a subdataset.
 
 Conversion
 ----------
 Assuming that the study dataset comes with a proper study specification, you can
 now convert it by calling::
 
-  datalad hirni-spec2bids --anonymize sourcedata/*/studyspec.json
+  datalad hirni-spec2bids --anonymize sourcedata/studyspec.json sourcedata/*/studyspec.json
 
 Several things are to be noted here. First, there is a switch ``--anonymize``.
 This is optional and ensures that within the resulting BIDS dataset subjects are
 referred to only by their `anon_subject` ID according to the specification.
 There shouldn't be any hint on the original subject ID in the commit messages or
-paths in the new dataset. What is *doesn't* do, however, is defacing the images.
-This is an additional step to be taken, that requires the images to already be
-converted.
+paths in the new dataset. By default this should also run a defacing routine, that should be specified in an acquisition's specification file within a snippet of type `dicomseries:all`.
+You can change this by editing this specification.
 
 Furthermore, you may notice that the call as shown above references not the
 study dataset to be converted but the specification files. This means, you don't
 need to convert the entire dataset at once. You can also convert a single
-acquisition instead.
+acquisition instead. In fact, you can even have several specification files per acquisition and run a conversion based on a single file. Further limitation is available via the option ``--only-type``, which allows to convert only snippets of that particular type.
 
 Dropping raw data
 -----------------

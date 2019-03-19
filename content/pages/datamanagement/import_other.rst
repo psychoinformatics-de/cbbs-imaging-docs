@@ -2,16 +2,15 @@ Import additional data
 **********************
 :order: 430
 
-Apart from DICOM files, you can add any additional data into a study dataset.
+Apart from DICOM files, you can (and should) add any additional data into a study dataset.
 Information corresponding to any of the MR data acquisitions must be added into
 the respective directory. This can be stimulation logs, behavioral response logs,
 or other simultaneously acquired data. To simply add the files to the dataset,
-copy or move them to the appropriate location and use ``datalad add`` to make
-them part of the dataset.
-*TODO: this prob. needs a link to tools/datalad and an explanation therein*
+copy or move them to the appropriate location and use ``datalad rev-save`` to make
+them part of the dataset. Have a look at the `study dataset demo <{filename}demo_study.rst>`_ for an example.
 
 However, in order to include the data in the conversion later on, you need to
-create a `specification <{filename}study_specification>`_ for it. This is what
+create a `specification <{filename}study_specification.rst>`_ for it. This is what
 ``datalad hirni-spec4anything`` is for. This will create a snippet for the data
 component, containing the mandatory pieces and lets you specify all properties
 of the specification needed for conversion via the same option `--properties`,
@@ -22,14 +21,18 @@ create a proper specification snippet for that file, from within the acquisition
 directory you'd call::
 
   datalad hirni-spec4anything physio/df37_200Hz_1.txt \
-  --properties "{\"converter_path\": \"../code/convert_physio",
-                 \"converter\": \"{_hs[converter_path]} {_hs[location]} \
-                                  {_hs[bids_subject]} {_hs[bids_task]} \
-                                  {_hs[bids_run]} ${freq}\", \
-                 \"bids_run\": \"01\",
-                 \"type\": \"physio_file\"}"
+  --properties "{'type': 'physio_file', \
+                 'bids_run': '01', \
+                 'procedures': [{'procedure-name': 'hirni-physiobox-converter'}], \
+                 'sampling-frequency': '200Hz'}"
 
-to create the snippet as shown on the `specification page <{filename}study_specification>`_::
+
+Note, that the specified type is an arbitrary label you can choose to distinguish different kinds of files.
+It can be used to run a conversion on that type only or to ease programmatic curation of specifications.
+``datalad hirni-spec4anything`` will also prefill the specification with values that are unambiguous throughout the already existing snippets in the respective specification file.
+Hence, if you already have imported the corresponding DICOMs, things like the subject ID or a possible task label that are the same for all the specification snippets derived from the DICOM metadata will be filled into your snippet for that physio file.
+You can overwrite them of course, by passing new values via that ``--properties`` option, which takes precedence over the defaults.
+The result will be a snippet in the acquisitions specification file as shown on the `specification page <{filename}study_specification.rst>`_::
 
   {"location":"physio/df37_200Hz_1.txt",
    "type":"physio_file",
@@ -40,36 +43,21 @@ to create the snippet as shown on the `specification page <{filename}study_speci
    "anon_subject":{"approved":false,"value":"002"},
    "bids_run":{"approved":false,"value":"01"},
    "bids_session":{"approved":false,"value":null},
-   "bids_task":{"approved":true,"value":"001"},
-   "converter":{"approved":true,"value":"{_hs[converter_path]} {_hs[location]} {_hs[bids_subject]} {_hs[bids_task]} {_hs[bids_run]}"},
-   "converter_path":{"approved":true,"value":"../code/convert_physio"},
+   "bids_task":{"approved":true,"value":"oneback"},
+   "sampling-frequency": {"approved": true, "value": "200Hz"},
+   "procedures":[{"procedure-name":{"approved":true,"value":"hirni-physiobox-converter"}}],
   }
 
+
 Note, that the keys "subject", "anon_subject", "bids_task" were not specified in
-the call but still created for this snippet. Whenever you use
-``datalad hirni-spec4anything`` to add a snippet to an acquisition's specification,
-the command will conclude the values for keys if the value is unambiguous
-throughout the already existing specification of that acquisition. If there was
-only one run in the existing data there would also be no need to specify it in
+the call but still created for this snippet (assuming they can be concluded as described above).
+If there was only one run in the existing data there would also be no need to specify it in
 the call to `spec4anything`.
 
-There are two fields to specify a custom converter for any data component:
-`converter` and `converter_path`. `converter_path` contains the path referring
-to the executable. Note, that this path is relative to the location of the
-specification file (by default right in the acquisition directory) as is the
-path to the data itself (key "location" in the snippet).
-The second field `converter` is a format string specifying how to call that
-executable to convert the file referred to by this snippet. The curly brackets
-indicate something to dynamically be replaced. This follows the same concept
-used by ``datalad run``. As a replacement symbol the dictionary ``_hs`` is
-available. This allows to reference any key in this very snippet. So,
-``{_hs[converter_path]}`` is replaced by the path to the executable and
-``{_hs[bids_run]}`` by the value `01`. That way, the string for the `converter`
-field can be figured out once per converter and all snippets using it will cause
-the conversion routine to replace those symbols with the values belonging to the
-currently converted data component.
+The field ``procedures`` defines a list of datalad-procedures to be called on conversion.
+They can refer to procedures provided by datalad-hirni's toolbox or any other procedure you defined.
+For details on how to this, please refer to ``datalad run-procedure --help``.
 
-
-
-
-
+Note, that the procedure in this example (`hirni-physiobox-converter`) is provided by the toolbox and expects a field `sampling-frequency` in the specification snippet.
+You might need different values and/or keys depending on your data. Generally, you can add arbitrary fields to the specification whether or not they are currently needed by any procedure.
+Thereby you can enhance metadata for everything within your study dataset in a machine-readable shape, that potentially can be processed later on.
