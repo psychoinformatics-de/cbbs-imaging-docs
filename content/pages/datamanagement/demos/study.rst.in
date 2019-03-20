@@ -1,8 +1,3 @@
-Demo: Study Dataset
-*******************
-:order: 481
-
-
 This is a simple example showing how to create a study dataset with datalad-hirni
 and how to import data into such a dataset. The raw data we use for this demo is publicly available from two example repositories at github.
 For reference what this data is about, simply visit https://github.com/datalad/example-dicom-functional/

@@ -1,5 +1,5 @@
-Raw Data Conversion
-*******************
+BIDS Conversion
+***************
 :order: 450
 
 The conversion of a `study raw dataset <{filename}study_setup.rst>`_ to a BIDS
@@ -62,3 +62,7 @@ Finally, you can uninstall the source dataset by running::
 
 This will leave you with just the BIDS dataset. It still contains a reference to
 the data it was derived from, but doesn't contain that data.
+
+
+.. include:: demos/conversion.rst.in
+

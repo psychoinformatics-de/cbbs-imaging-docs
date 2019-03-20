@@ -1,5 +1,5 @@
-Import additional data
-**********************
+Non-DICOM Data
+**************
 :order: 430
 
 Apart from DICOM files, you can (and should) add any additional data into a study dataset.

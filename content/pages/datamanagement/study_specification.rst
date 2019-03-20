@@ -1,6 +1,6 @@
-Study specification
-*******************
-:order: 440
+Study Metadata
+**************
+:order: 415
 
 The study specification consists of JSON files in the `study raw dataset <{filename}study_setup.rst>`_ and
 provides metadata needed for conversion. The tools provided by datalad-hirni aim

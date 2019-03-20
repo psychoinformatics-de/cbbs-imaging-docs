@@ -1,6 +1,5 @@
 Demo: Conversion to BIDS
-************************
-:order: 482
+------------------------
 
 
 This demo shows how to convert a hirni study dataset into a BIDS compliant dataset.
@@ -9,7 +8,7 @@ We will use a published version of that dataset available from github, but you c
 
 
 BIDS Dataset
-------------
+~~~~~~~~~~~~
 
 The idea is to create a new dataset, that will become the BIDS Dataset and reference our study dataset - that bundles all the raw data - by making it a subdataset of the derived one.
 Please note, that this does NOT mean, that the new BIDS dataset contains the raw data. It just references it and thereby creates a fully reproducible history record of how it came to be.

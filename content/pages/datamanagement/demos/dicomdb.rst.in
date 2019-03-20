@@ -1,7 +1,3 @@
-Demo: DICOM DB
-**************
-:order: 482
-
 DICOM datasets that have been `imported into a study raw dataset
 <{filename}import_dicoms.rst>`_ can (additionally) be collected in scanner (or
 institution or lab) specific superdatasets. This allows for convenient record

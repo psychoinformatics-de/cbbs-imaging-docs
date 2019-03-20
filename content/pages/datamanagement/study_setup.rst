@@ -1,6 +1,9 @@
-Initial study setup
+Initial Study Setup
 *******************
 :order: 410
+
+Overview
+========
 
 A study raw dataset contains all raw data and metadata on a study, across
 all acquisitions and participants. It is typically created just prior the
@@ -57,8 +60,12 @@ Apart from setting some configurations like enabling the extraction of DICOM met
 Note, that by default the toolbox is installed from github. If you need to install from elsewhere, you can set the `datalad.hirni.toolbox.url` config to point to another URL prior to running ``setup_hirni_dataset``.
 
 You can now use hirni's `webUI <{filename}tools/webui.rst>`_ to edit the study metadata and thereby fill the ``dataset_description.json`` file.
-This step can be postponed or repeated later on to complete it. There's no technical need to fill it out completely (or at all) at this point. It is recommended to do it as far as you can though.
+   This step can be postponed or repeated later on to complete it. There's no technical need to fill it out completely (or at all) at this point. It is recommended to do it as far as you can though.
 
 The dataset is now ready for `importing <{filename}import_dicoms.rst>`_ acquisition data.
 
-For more details and an example of such a setup, see the respective `demo <{filename}demo_study.rst>`_.
+
+Step-by-step demo
+=================
+
+.. include:: demos/study.rst.in
