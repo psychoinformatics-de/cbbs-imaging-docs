@@ -56,12 +56,12 @@
 
   <div>
     <p>This demo shows how to use datalad and datalad-hirni datasets to perform and record reproducible analyses.
-We will again use the study dataset as created by the respective <a class="reference external" href="{filename}demo_study.rst">demo</a> to provide the raw data.</p>
+We will again use the study dataset as created by the respective <a class="reference external" href="../../datamanagement/study_setup/#step-by-step-demo">demo</a> to provide the raw data.</p>
 <div class="section" id="prepare-the-data-for-analysis">
 <h2 id="prepare the data for analysis">Prepare the Data for Analysis<a class="headerlink" href="#prepare-the-data-for-analysis" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
 <p>Before analyzing imaging data, we typically have to convert them from their original DICOM format into NIfTI files.
 We gain a lot here by adopting the BIDS standard. Up front, it saves us the effort of creating an ad-hoc directory structure. But more importantly, by structuring our data in a standard way (and an increasingly common one), it opens up possibilities for us to easily feed our dataset into existing analysis pipelines and tools.</p>
-<p>For the purpose of this demo, we will simply list the commands needed to get a BIDS dataset from the study dataset. For reference: This is the exact same thing we do in the <a class="reference external" href="{filename}demo_conversion.rst">conversion demo</a></p>
+<p>For the purpose of this demo, we will simply list the commands needed to get a BIDS dataset from the study dataset. For reference: This is the exact same thing we do in the <a class="reference external" href="../../datamanagement/conversion/#demo-conversion-to-bids">conversion demo</a></p>
 <pre class="literal-block">
 % datalad rev-create localizer_scans
 % cd localizer_scans
