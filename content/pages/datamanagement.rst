@@ -37,5 +37,4 @@ For each study the following steps will be performed:
 5. Apply analysis procedure
 
 
-For a quick start you may want to have a look at the demos on how to `setup a study dataset <{filename}datamanagement/demo_study.rst>`_,
-`convert <{filename}datamanagement/demo_conversion.rst>`_ it and run an `analysis <{filename}datamanagement/demo_analysis.rst>`_.
+Detailed step-by-step demos are included in many section to help getting started with this platform.
