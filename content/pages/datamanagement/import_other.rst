@@ -7,7 +7,7 @@ Information corresponding to any of the MR data acquisitions must be added into
 the respective directory. This can be stimulation logs, behavioral response logs,
 or other simultaneously acquired data. To simply add the files to the dataset,
 copy or move them to the appropriate location and use ``datalad rev-save`` to make
-them part of the dataset. Have a look at the `study dataset demo <{filename}demo_study.rst>`_ for an example.
+them part of the dataset. Have a look at the `study dataset demo <{filename}study_setup.rst#step-by-step-demo>`_ for an example.
 
 However, in order to include the data in the conversion later on, you need to
 create a `specification <{filename}study_specification.rst>`_ for it. This is what

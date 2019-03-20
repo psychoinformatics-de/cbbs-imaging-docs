@@ -4,7 +4,7 @@ Demo: A Reproducible GLM Analysis
 
 
 This demo shows how to use datalad and datalad-hirni datasets to perform and record reproducible analyses.
-We will again use the study dataset as created by the respective `demo <{filename}demo_study.rst>`_ to provide the raw data.
+We will again use the study dataset as created by the respective `demo <{filename}../datamanagement/study_setup.rst#step-by-step-demo>`_ to provide the raw data.
 
 Prepare the Data for Analysis
 -----------------------------
@@ -12,7 +12,7 @@ Prepare the Data for Analysis
 Before analyzing imaging data, we typically have to convert them from their original DICOM format into NIfTI files.
 We gain a lot here by adopting the BIDS standard. Up front, it saves us the effort of creating an ad-hoc directory structure. But more importantly, by structuring our data in a standard way (and an increasingly common one), it opens up possibilities for us to easily feed our dataset into existing analysis pipelines and tools.
 
-For the purpose of this demo, we will simply list the commands needed to get a BIDS dataset from the study dataset. For reference: This is the exact same thing we do in the `conversion demo <{filename}demo_conversion.rst>`_ ::
+For the purpose of this demo, we will simply list the commands needed to get a BIDS dataset from the study dataset. For reference: This is the exact same thing we do in the `conversion demo <{filename}../datamanagement/conversion.rst#demo-conversion-to-bids>`_ ::
 
   % datalad rev-create localizer_scans
   % cd localizer_scans

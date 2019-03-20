@@ -3,7 +3,7 @@ Demo: Conversion to BIDS
 
 
 This demo shows how to convert a hirni study dataset into a BIDS compliant dataset.
-The study dataset we use is the one created by the `study dataset demo <{filename}demo_study.rst>`_.
+The study dataset we use is the one created by the `study dataset demo <{filename}study_setup.rst#step-by-step-demo>`_.
 We will use a published version of that dataset available from github, but you can also build it yourself by following said demo and use that one.
 
 
