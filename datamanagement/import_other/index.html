@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Team Brawndo" />
-  <title>CBBS Imaging &ndash; Import additional data</title>
+  <title>CBBS Imaging &ndash; Non-DICOM Data</title>
   <link rel="license" hreflang="en" href="../../copyright.html" />
 
   <link rel="stylesheet" type="text/css" href="../../theme/css/style.css">
@@ -22,31 +22,19 @@
 
                 <ul>
                   <li>
-                    <a href="../../datamanagement/study_setup/">Initial study setup</a>
+                    <a href="../../datamanagement/study_setup/">Initial Study Setup</a>
                   </li>
                   <li>
-                    <a href="../../datamanagement/import_dicoms/">Import DICOMs</a>
+                    <a href="../../datamanagement/study_specification/">Study Metadata</a>
                   </li>
                   <li>
-                    <a class="active" href="../../datamanagement/import_other/">Import additional data</a>
+                    <a href="../../datamanagement/import_dicoms/">DICOM Data</a>
                   </li>
                   <li>
-                    <a href="../../datamanagement/study_specification/">Study specification</a>
+                    <a class="active" href="../../datamanagement/import_other/">Non-DICOM Data</a>
                   </li>
                   <li>
-                    <a href="../../datamanagement/conversion/">Raw Data Conversion</a>
-                  </li>
-                  <li>
-                    <a href="../../datamanagement/demo_study/">Demo: Study Dataset</a>
-                  </li>
-                  <li>
-                    <a href="../../datamanagement/demo_conversion/">Demo: Conversion to BIDS</a>
-                  </li>
-                  <li>
-                    <a href="../../datamanagement/demo_scandb/">Demo: DICOM DB</a>
-                  </li>
-                  <li>
-                    <a href="../../datamanagement/demo_analysis/">Demo: A Reproducible GLM Analysis</a>
+                    <a href="../../datamanagement/conversion/">BIDS Conversion</a>
                   </li>
                   <li>
                     <a href="../../datamanagement/tools/">Tools</a>
@@ -75,10 +63,10 @@
       <ul class="breadcrumbs">
         <li><a href="../../">Home</a></li>
         <li> > <a href="../../datamanagement/">Data Management</a></li>
-        <li> > Import additional data</li>
+        <li> > Non-DICOM Data</li>
       </ul>
     </nav>
-    <h1>Import additional data</h1>
+    <h1>Non-DICOM Data</h1>
   </header>
 
   <div>
@@ -87,7 +75,7 @@ Information corresponding to any of the MR data acquisitions must be added into
 the respective directory. This can be stimulation logs, behavioral response logs,
 or other simultaneously acquired data. To simply add the files to the dataset,
 copy or move them to the appropriate location and use <tt class="docutils literal">datalad <span class="pre">rev-save</span></tt> to make
-them part of the dataset. Have a look at the <a class="reference external" href="../../datamanagement/demo_study/">study dataset demo</a> for an example.</p>
+them part of the dataset. Have a look at the <a class="reference external" href="{filename}demo_study.rst">study dataset demo</a> for an example.</p>
 <p>However, in order to include the data in the conversion later on, you need to
 create a <a class="reference external" href="../../datamanagement/study_specification/">specification</a> for it. This is what
 <tt class="docutils literal">datalad <span class="pre">hirni-spec4anything</span></tt> is for. This will create a snippet for the data

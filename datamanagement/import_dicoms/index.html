@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Team Brawndo" />
-  <title>CBBS Imaging &ndash; Import DICOMs</title>
+  <title>CBBS Imaging &ndash; DICOM Data</title>
   <link rel="license" hreflang="en" href="../../copyright.html" />
 
   <link rel="stylesheet" type="text/css" href="../../theme/css/style.css">
@@ -22,31 +22,19 @@
 
                 <ul>
                   <li>
-                    <a href="../../datamanagement/study_setup/">Initial study setup</a>
+                    <a href="../../datamanagement/study_setup/">Initial Study Setup</a>
                   </li>
                   <li>
-                    <a class="active" href="../../datamanagement/import_dicoms/">Import DICOMs</a>
+                    <a href="../../datamanagement/study_specification/">Study Metadata</a>
                   </li>
                   <li>
-                    <a href="../../datamanagement/import_other/">Import additional data</a>
+                    <a class="active" href="../../datamanagement/import_dicoms/">DICOM Data</a>
+<div id="toc"><ul><li><a class="toc-href" href="#query dicom metadata" title="Query DICOM metadata">Query DICOM metadata</a><ul><li><a class="toc-href" href="#example queries" title="Example queries">Example queries</a></li><li><a class="toc-href" href="#demo script to bootstrap a dicom database from scan tarballs" title="Demo script to bootstrap a DICOM database from scan tarballs">Demo script to bootstrap a DICOM database from scan tarballs</a></li></ul></li></ul></div>                  </li>
+                  <li>
+                    <a href="../../datamanagement/import_other/">Non-DICOM Data</a>
                   </li>
                   <li>
-                    <a href="../../datamanagement/study_specification/">Study specification</a>
-                  </li>
-                  <li>
-                    <a href="../../datamanagement/conversion/">Raw Data Conversion</a>
-                  </li>
-                  <li>
-                    <a href="../../datamanagement/demo_study/">Demo: Study Dataset</a>
-                  </li>
-                  <li>
-                    <a href="../../datamanagement/demo_conversion/">Demo: Conversion to BIDS</a>
-                  </li>
-                  <li>
-                    <a href="../../datamanagement/demo_scandb/">Demo: DICOM DB</a>
-                  </li>
-                  <li>
-                    <a href="../../datamanagement/demo_analysis/">Demo: A Reproducible GLM Analysis</a>
+                    <a href="../../datamanagement/conversion/">BIDS Conversion</a>
                   </li>
                   <li>
                     <a href="../../datamanagement/tools/">Tools</a>
@@ -75,10 +63,10 @@
       <ul class="breadcrumbs">
         <li><a href="../../">Home</a></li>
         <li> > <a href="../../datamanagement/">Data Management</a></li>
-        <li> > Import DICOMs</li>
+        <li> > DICOM Data</li>
       </ul>
     </nav>
-    <h1>Import DICOMs</h1>
+    <h1>DICOM Data</h1>
   </header>
 
   <div>
@@ -116,11 +104,114 @@ datalad hirni-import-dcm --subject xx99 --anon-subject 007 \
                "comment": "something unusual happened during this acquisition"}' \
 /path/to/tarball
 </pre>
-<p>DICOM subdatasets can be archived separately to, for example, build raw data
-archives (for a lab, a scanner, an institution) that can be easily queried for
-scan with particular properties (see <a class="reference external" href="../../datamanagement/demo_scandb/">this demo</a>
-for an example).</p>
-<p><em>TODO: Notes on how and what to drop/clean up</em></p>
+<div class="section" id="query-dicom-metadata">
+<h2 id="query dicom metadata">Query DICOM metadata<a class="headerlink" href="#query-dicom-metadata" title="Permalink to this headline"><i class="icon-link"></i></a></h2>
+<p>DICOM datasets that have been <a class="reference external" href="../../datamanagement/import_dicoms/">imported into a study raw dataset</a> can (additionally) be collected in scanner (or
+institution or lab) specific superdatasets. This allows for convenient record
+keeping of all relevant MR data acquisitions ever made in a given context.  The
+example script at the bottom of this page shows how to bootstrap such a
+database.</p>
+<p>Such superdatasets are lightweight, as they do not contain actual imaging data,
+and can be queried using a flexible language. In the DICOM context it is often
+desired to limit the amount of metadata to whole datasets and their image
+series. This can be achieved using the following configuration, which only needs
+to be put into the top-most dataset, not every DICOM dataset:</p>
+<pre class="literal-block">
+% cat .datalad/config
+[datalad "dataset"]
+        id = 349bb81a-1afe-11e8-959f-a0369f7c647e
+[datalad "search"]
+        index-autofield-documenttype = datasets
+        default-mode = autofield
+</pre>
+<p>With this setup the DataLad <cite>search</cite> command will automatically discover
+metadata for any contained image series, and build a search index that can be
+queried for values in one or more individual DICOM fields. This allows for a
+variety of useful queries.</p>
+<div class="section" id="example-queries">
+<h3 id="example queries">Example queries<a class="headerlink" href="#example-queries" title="Permalink to this headline"><i class="icon-link"></i></a></h3>
+<p>Report scans made on any male patients in a given time span:</p>
+<pre class="literal-block">
+% datalad search dicom.Series.AcquisitionDate:'[20130410 TO 20140101]' dicom.Series.PatientSex:'M'
+search(ok): lin/7t/xx99_2022/dicoms (dataset)
+</pre>
+<p>Report any scans for a particular subject ID:</p>
+<pre class="literal-block">
+% datalad search 'xx99*'
+[INFO   ] Query completed in 0.019682836998981657 sec. Reporting up to 20 top matches.
+search(ok): lin/7t/xx99_2022/dicoms (dataset)
+search(ok): lin/7t/xx99_2014/dicoms (dataset)
+search(ok): lin/7t/xx99_2015/dicoms (dataset)
+search(ok): lin/3t/xx99_0138/dicoms (dataset)
+search(ok): lin/3t/xx99_0139/dicoms (dataset)
+search(ok): lin/3t/xx99_0140/dicoms (dataset)
+action summary:
+  search (ok: 6)
+</pre>
+<p>For each search hit ALL available metadata is returned. This allows for sophisticated output formating.
+Here is an example that reports all studies a particular subject has participated in:</p>
+<pre class="literal-block">
+% datalad -f '{metadata[dicom][Series][0][StudyDescription]}' search 'xx99*' | uniq
+[INFO] Query completed in 0.02244874399912078 sec. Reporting up to 20 top matches.
+Studies^Michael_Hanke
+transrep2
+Transrep2
+</pre>
+</div>
+<div class="section" id="demo-script-to-bootstrap-a-dicom-database-from-scan-tarballs">
+<h3 id="demo script to bootstrap a dicom database from scan tarballs">Demo script to bootstrap a DICOM database from scan tarballs<a class="headerlink" href="#demo-script-to-bootstrap-a-dicom-database-from-scan-tarballs" title="Permalink to this headline"><i class="icon-link"></i></a></h3>
+<p>The following script shows how a bunch of DICOM tarballs from two different
+scanners can be imported into a DataLad superdataset for each scanner. Those
+two scanner datasets are than assembled into a joint superdataset for
+acquisition hardware of the institution. Metadata from any acquisition session can then
+be aggregated into this dataset, to track all acquisitions made on those
+devices, as well as to be able to query for individual scan sessions, DICOM
+series, or individual DICOM images (see above for query examples).</p>
+<div class="highlight"><pre><span></span><span class="c1"># create a super dataset that will have all acquisitions the 7T ever made</span>
+datalad rev-create 7t
+<span class="nb">cd</span> 7t
+datalad run-procedure setup_hirni_dataset
+<span class="c1"># import a bunch of DICOM tarballs (simulates daily routine)</span>
+datalad hirni-import-dcm <span class="se">\</span>
+ /home/data/psyinf/forrest_gump/pandora/data/xx99/raw/dicom/xx99_2022.20130410.103515.930000.tar.gz
+datalad hirni-import-dcm <span class="se">\</span>
+ /home/data/psyinf/forrest_gump/7T_ad/data/xx99/raw/dicom/xx99_2014.20130408.123933.087500.tar.gz
+datalad hirni-import-dcm <span class="se">\</span>
+ /home/data/psyinf/forrest_gump/7T_ad/data/xx99/raw/dicom/xx99_2015.20130408.140515.147500.tar.gz
+
+<span class="c1"># done for now</span>
+<span class="nb">cd</span> ..
+<span class="c1"># now the same for 3t</span>
+datalad rev-create 3t
+<span class="nb">cd</span> 3t
+<span class="c1"># import a bunch of DICOM tarballs</span>
+datalad hirni-import-dcm <span class="se">\</span>
+ /home/data/psyinf/forrest_gump/3T_av_et/mri/xx99_0138.20140425.121603.06.tar.gz
+datalad hirni-import-dcm <span class="se">\</span>
+ /home/data/psyinf/forrest_gump/3T_av_et/mri/xx99_0139.20140425.142752.07.tar.gz
+datalad hirni-import-dcm <span class="se">\</span>
+ /home/data/psyinf/forrest_gump/3T_visloc/mri/xx99_0140.20140425.155736.23.tar.gz
+
+<span class="c1"># done</span>
+<span class="nb">cd</span> ..
+
+<span class="c1"># one dataset for the entire institute's scan (could in turn be part of one that also</span>
+<span class="c1"># includes other modalities/machines)</span>
+<span class="c1"># this first part only needs to be done once</span>
+datalad rev-create lin
+<span class="nb">cd</span> lin
+datalad install -d . -s ../7t
+datalad install -d . -s ../3t
+
+<span class="c1"># this second part needs to be done everytime the metadata DB shall be updated</span>
+<span class="c1"># get the latest state of the scanner datasets (no heavy stuff is moved around)</span>
+datalad update --merge -r
+<span class="c1"># aggregate from the aggregated metadata</span>
+datalad aggregate-metadata -r
+<span class="c1"># ready to search</span>
+</pre></div>
+</div>
+</div>
 
   </div>
 </article>
