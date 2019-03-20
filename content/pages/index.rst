@@ -82,4 +82,4 @@ Accomplished milestones
 
   - DICOM metadata can be queried across all acquisitions of a study, made by a
     particular scanner, or at a given institution (see `demo
-    <{filename}datamanagement/demo_scandb.rst>`_).
+    <{filename}datamanagement/import_dicoms.rst#demo-script-to-bootstrap-a-dicom-database-from-scan-tarballs>`_).

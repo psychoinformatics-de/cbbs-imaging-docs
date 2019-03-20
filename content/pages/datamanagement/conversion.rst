@@ -32,7 +32,7 @@ Now the study dataset to be converted is needed. Install it as a subdataset
 
   datalad install -d . -s [PATH TO STUDY DATASET] sourcedata
 
-Note, that we are assuming you created your study dataset according to the `setup page <{filename}study_setup.rst>`_ or the accompanying `demo <{filename}demo_study.rst>`_.
+Note, that we are assuming you created your study dataset according to the `setup page <{filename}study_setup.rst>`_ or the accompanying `demo <{filename}study_setup.rst#step-by-step-demo>`_.
 That is, it has the `toolbox <{filename}tools/toolbox.rst>`_ installed as a subdataset.
 
 Conversion
