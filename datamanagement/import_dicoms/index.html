@@ -151,7 +151,7 @@ action summary:
 <p>For each search hit ALL available metadata is returned. This allows for sophisticated output formating.
 Here is an example that reports all studies a particular subject has participated in:</p>
 <pre class="literal-block">
-% datalad -f '{metadata[dicom][Series][0][StudyDescription]}' search 'xx99*' | uniq
+% datalad -f '{metadata[dicom][Series][0][StudyDescription]}' search -f 'xx99*' | uniq
 [INFO] Query completed in 0.02244874399912078 sec. Reporting up to 20 top matches.
 Studies^Michael_Hanke
 transrep2
@@ -184,6 +184,7 @@ datalad hirni-import-dcm <span class="se">\</span>
 <span class="c1"># now the same for 3t</span>
 datalad rev-create 3t
 <span class="nb">cd</span> 3t
+datalad run-procedure setup_hirni_dataset
 <span class="c1"># import a bunch of DICOM tarballs</span>
 datalad hirni-import-dcm <span class="se">\</span>
  /home/data/psyinf/forrest_gump/3T_av_et/mri/xx99_0138.20140425.121603.06.tar.gz
